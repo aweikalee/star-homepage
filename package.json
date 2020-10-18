@@ -12,6 +12,7 @@
     "vue": "^3.0.1"
   },
   "devDependencies": {
+    "@types/fs-extra": "^9.0.2",
     "@vue/compiler-sfc": "^3.0.1",
     "autoprefixer": "^9.8.6",
     "patch-package": "^6.2.2",
