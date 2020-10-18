@@ -1,5 +1,21 @@
 @import './style/index.scss';
 
+html {
+  /* mobile */
+  font-size: calc(100vw / 7.5);
+
+  /* mobile 横屏 */
+  @media (orientation: landscape) {
+    font-size: calc(100vh / 7.5);
+  }
+
+  /* desktop */
+  @media (min-width: $screen-boundary-width) {
+    font-size: 50px;
+  }
+}
+
 body {
+  background-color: #282c34;
   font-family: $font-family;
 }
