@@ -2,6 +2,7 @@
   "name": "homepage",
   "version": "0.0.0",
   "scripts": {
+    "postinstall": "patch-package",
     "dev": "vite",
     "build": "vite build"
   },
@@ -11,6 +12,7 @@
   },
   "devDependencies": {
     "@vue/compiler-sfc": "^3.0.1",
+    "patch-package": "^6.2.2",
     "vite": "^1.0.0-rc.4"
   },
   "browserslist": [
