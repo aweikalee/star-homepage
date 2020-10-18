@@ -1,0 +1,14 @@
+@import '../../style/index.scss';
+
+.footer {
+  text-align: center;
+  padding: rem(20);
+  font-size: rem(16);
+  color: #fff;
+  opacity: 0.3;
+  line-height: 1.5;
+
+  a {
+      color: inherit;
+  }
+}

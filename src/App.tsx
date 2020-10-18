@@ -1,5 +1,6 @@
 import { defineComponent, onMounted } from 'vue'
-import TheFooter from './components/TheFooter'
+import ThePhone from './components/ThePhone'
+import TheCamera from './components/TheCamera'
 
 export default defineComponent(() => {
   /* 移除页面加载动画 */
@@ -7,7 +8,7 @@ export default defineComponent(() => {
 
   return () => (
     <div>
-      <TheFooter />
+      <ThePhone>{() => <TheCamera />}</ThePhone>
     </div>
   )
 })

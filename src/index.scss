@@ -10,7 +10,7 @@ html {
   }
 
   /* desktop */
-  @media (min-width: $screen-boundary-width) {
+  @media (min-width: $screen-boundary-width) and (min-height: $screen-boundary-height) {
     font-size: 50px;
   }
 }

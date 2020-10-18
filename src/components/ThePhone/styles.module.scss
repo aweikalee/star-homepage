@@ -1,0 +1,134 @@
+@import '../../style/index.scss';
+
+$phone-width: rem(9 * 50);
+$phone-height: rem(16 * 50);
+$border: rem(5);
+$header: rem(25);
+$footer: rem(35);
+$border-radius: rem(30);
+$screen-radius: rem(20);
+
+$border-color: #70caac;
+
+.phone {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  user-select: none;
+}
+
+.footer {
+  display: none;
+}
+
+/* desktop */
+@media (min-width: $screen-boundary-width) and (min-height: $screen-boundary-height) {
+  .phone {
+    width: $phone-width;
+    height: $phone-height;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+  }
+
+  .border {
+    &-top,
+    &-bottom,
+    &-left,
+    &-right {
+      background-color: $border-color;
+      position: absolute;
+      z-index: -1;
+    }
+
+    &-top,
+    &-bottom {
+      left: -$border;
+      width: calc(100% + #{$border * 2});
+    }
+    &-top {
+      top: 0;
+      height: $header + $screen-radius;
+      transform: translate(0, -$header);
+      border-radius: $border-radius $border-radius 0 0;
+    }
+    &-bottom {
+      bottom: 0;
+      height: $footer + $screen-radius;
+      transform: translate(0, $footer);
+      border-radius: 0 0 $border-radius $border-radius;
+    }
+
+    &-left,
+    &-right {
+      top: 0;
+      height: 100%;
+      width: $border;
+    }
+    &-left {
+      left: 0;
+      transform: translate(-100%, 0);
+    }
+    &-right {
+      right: 0;
+      transform: translate(100%, 0);
+    }
+  }
+
+  .footer {
+    display: block;
+    position: absolute;
+    left: 50%;
+    bottom: -$footer;
+    transform: translate(-50%, 100%);
+    width: 100%;
+  }
+}
+
+/* desktop 横屏 */
+@media (min-width: $screen-boundary-width) and (min-height: $screen-boundary-height) and (orientation: landscape) {
+  .phone {
+    width: $phone-height;
+    height: $phone-width;
+  }
+
+  .border {
+    &-top,
+    &-bottom {
+      left: initial;
+      width: 100%;
+    }
+    &-top {
+      top: 0;
+      height: $border;
+      transform: translate(0, -100%);
+      border-radius: initial;
+    }
+    &-bottom {
+      bottom: 0;
+      height: $border;
+      transform: translate(0, 100%);
+      border-radius: initial;
+    }
+
+    &-left,
+    &-right {
+      top: -$border;
+      height: calc(100% + #{$border * 2});
+    }
+    &-left {
+      left: 0;
+      width: $header + $screen-radius;
+      transform: translate(-$header, 0);
+      border-radius: $border-radius 0 0 $border-radius;
+    }
+    &-right {
+      right: 0;
+      width: $footer + $screen-radius;
+      transform: translate($footer, 0);
+      border-radius: 0 $border-radius $border-radius 0;
+    }
+  }
+}
