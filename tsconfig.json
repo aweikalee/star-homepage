@@ -1,7 +1,12 @@
 {
   "compilerOptions": {
     "jsx": "preserve",
-    "strict": true
+    "strict": true,
+    "plugins": [
+      {
+        "name": "typescript-plugin-css-modules"
+      }
+    ]
   },
   "include": [
     "src"
