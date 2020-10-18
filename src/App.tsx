@@ -1,6 +1,7 @@
 import { defineComponent, onMounted } from 'vue'
 import ThePhone from './components/ThePhone'
 import TheCamera from './components/TheCamera'
+import TheStarrySky from './components/TheStarrySky'
 
 export default defineComponent(() => {
   /* 移除页面加载动画 */
@@ -9,6 +10,7 @@ export default defineComponent(() => {
   return () => (
     <div>
       <ThePhone>{() => <TheCamera />}</ThePhone>
+      <TheStarrySky/>
     </div>
   )
 })

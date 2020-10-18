@@ -18,4 +18,10 @@ html {
 body {
   background-color: #282c34;
   font-family: $font-family;
+  overflow: hidden;
+}
+
+#app {
+  width: 100vw;
+  height: 100vh;
 }
