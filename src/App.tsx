@@ -8,9 +8,9 @@ export default defineComponent(() => {
   onMounted(() => $removeLoading())
 
   return () => (
-    <div>
+    <>
       <ThePhone>{() => <TheCamera />}</ThePhone>
       <TheStarrySky/>
-    </div>
+    </>
   )
 })

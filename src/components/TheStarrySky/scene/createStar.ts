@@ -13,9 +13,9 @@ export async function createStar(gl: OGLRenderingContext) {
     ...(await createSphereData({
       quantity: 2000,
       color: () => chroma(Math.random()),
-      opacity: () => 1,
-      radius: () => random(20, 40),
-      size: () => 150,
+      opacity: () => 0.9,
+      radius: () => random(15, 40),
+      size: () => 100,
     })),
   })
 
