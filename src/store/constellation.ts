@@ -1,5 +1,5 @@
 import { reactive, readonly } from 'vue'
-import { random } from '../components/TheStarrySky/scene/utils'
+import { random } from '../webgl/utils'
 import { sites } from '../config'
 
 const rotationYBase = (2 * Math.PI) / sites.length

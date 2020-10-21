@@ -1,8 +1,8 @@
-import { Color, Mat4, OGLRenderingContext } from 'ogl-typescript'
+import { Color, OGLRenderingContext } from 'ogl-typescript'
 import { constellation } from '../../../store'
-import { createTextureStar } from './texture/createTextureStar'
-import { createParticles } from './object/createParticles'
-import { createLines } from './object/createLines'
+import { createTextureStar } from '../../../webgl/texture/createTextureStar'
+import { createParticles } from '../../../webgl/object/createParticles'
+import { createLines } from '../../../webgl/object/createLines'
 
 export async function createConstellations(gl: OGLRenderingContext) {
   return (

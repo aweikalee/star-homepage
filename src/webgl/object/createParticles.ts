@@ -1,4 +1,4 @@
-import { viewport } from './../../../../store/viewport'
+import { viewport } from '../../store/viewport'
 import { computed } from 'vue'
 import {
   Program,

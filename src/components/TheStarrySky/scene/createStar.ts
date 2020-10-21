@@ -1,8 +1,8 @@
 import { OGLRenderingContext } from 'ogl-typescript'
-import { createSphereData } from './utils/createSphereData'
-import { createTextureStar } from './texture/createTextureStar'
-import { createChromaScale, random } from './utils'
-import { createParticles } from './object/createParticles'
+import { createSphereData } from '../../../webgl/utils/createSphereData'
+import { createTextureStar } from '../../../webgl/texture/createTextureStar'
+import { createChromaScale, random } from '../../../webgl/utils'
+import { createParticles } from '../../../webgl/object/createParticles'
 
 export async function createStar(gl: OGLRenderingContext) {
   const texture = createTextureStar(gl)
