@@ -1,12 +1,6 @@
-import { computed, defineComponent, onMounted, ref, watch } from 'vue'
-import {
-  Renderer,
-  Transform,
-  Camera,
-  Orbit,
-  OrbitOptions,
-} from 'ogl-typescript'
-import { viewport } from '../../store'
+import { defineComponent, onMounted, ref, watch } from 'vue'
+import { Renderer, Transform, Camera } from 'ogl-typescript'
+import { glstate, viewport } from '../../store'
 import { useRaf } from '../../utils'
 import { createScene } from './scene/createScene'
 
@@ -20,26 +14,13 @@ export default defineComponent({
     let renderer: Renderer | undefined
     let scene: Transform | undefined
     let camera: Camera | undefined
-    let controls: any
-
-    /* 视角 */
-    const fov = computed(() => {
-      const h = viewport.h
-      const scale = Math.max(h / 450, 1)
-      const alpha = (30 * Math.PI) / 180
-      const tanAlpha = Math.tan(alpha / 2)
-      const beta = 2 * Math.atan(scale * tanAlpha)
-      const fov = (beta * 180) / Math.PI
-
-      return fov
-    })
 
     /* 重置尺寸 */
     const onResize = () => {
       const { w, h } = viewport
       renderer?.setSize(w, h)
       camera?.perspective({
-        fov: fov.value,
+        fov: glstate.fov,
         aspect: w / h,
       })
     }
@@ -53,18 +34,6 @@ export default defineComponent({
       const { gl } = renderer
 
       camera = new Camera(gl)
-      camera.position.set(0, 0, 0.00001)
-      camera.lookAt([0, 0, 0])
-      controls = new (Orbit as any)(camera, {
-        ease: 0.5, // 缓动
-        enableZoom: false, // 允许缩放
-        enablePan: false, // 允许平移
-        rotateSpeed: -0.03, // 旋转速度
-        autoRotate: true, // 自动转动
-        autoRotateSpeed: 0.06, // 自动转动速度
-        minPolarAngle: Math.PI / 2 - Math.PI / 16, // 最小纵向视角
-        maxPolarAngle: Math.PI / 2 + Math.PI / 16, // 最大纵向视角
-      } as OrbitOptions)
 
       scene = createScene(gl)
 
@@ -74,7 +43,8 @@ export default defineComponent({
 
     /* 动画 */
     useRaf(() => {
-      controls?.update()
+      camera?.position.copy(glstate.transform.position)
+      camera?.lookAt([0, 0, 0])
       renderer?.render({
         scene,
         camera,
