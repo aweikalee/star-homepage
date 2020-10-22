@@ -1,11 +1,5 @@
-import { computed, defineComponent, onMounted, ref, watch } from 'vue'
-import {
-  Renderer,
-  Transform,
-  Camera,
-  Orbit,
-  OrbitOptions,
-} from 'ogl-typescript'
+import { defineComponent, onMounted, ref, watch } from 'vue'
+import { Renderer, Transform, Camera } from 'ogl-typescript'
 import { glstate, viewport } from '../../store'
 import { useRaf } from '../../utils'
 import { createScene } from './scene/createScene'
@@ -49,9 +43,8 @@ export default defineComponent({
 
     /* 动画 */
     useRaf(() => {
-      // controls?.update()
-      camera?.position.copy(glstate.transform.position)
-      camera?.lookAt([0, 0, 0])
+      const { x, y, z } = glstate.transform.position
+      camera?.lookAt([x, -y, z])
       renderer?.render({
         scene,
         camera,
