@@ -1,7 +1,7 @@
 import { defineComponent, onMounted, ref, watch } from 'vue'
 import { Renderer, Transform, Camera } from 'ogl-typescript'
 import { glstate, viewport } from '../../store'
-import { useRaf } from '../../utils'
+import { equivalentFov, useRaf } from '../../utils'
 import { createScene } from './scene/createScene'
 
 import styles from './styles.module.scss'
@@ -74,20 +74,21 @@ function getViewport() {
   }
 }
 
+const equivalentBaseFov = equivalentFov(
+  variable.fov.base,
+  variable.phone.w,
+  variable.phone.h
+)
 function getFov() {
   const { isMobileInCSS, orientation } = viewport
   const {
-    phone,
     fov: { base },
   } = variable
 
   if (isMobileInCSS) return glstate.fov
 
   if (orientation === 'portrait') {
-    const scale = phone.h / phone.w
-    if (scale < 1) return base
-    const tan = Math.tan(base / 2)
-    return 2 * Math.atan(scale * tan) // 弧度
+    return equivalentBaseFov
   } else {
     return base
   }

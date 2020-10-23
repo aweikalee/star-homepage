@@ -1,6 +1,7 @@
 import { Orbit, OrbitOptions, Transform } from 'ogl-typescript'
 import { reactive, readonly, computed } from 'vue'
 import { variable } from '../config'
+import { equivalentFov } from '../utils'
 import { viewport } from './viewport'
 
 const fov = computed(() => {
@@ -10,10 +11,7 @@ const fov = computed(() => {
   } = variable
   const { h, isMobileInCSS } = viewport
   if (isMobileInCSS) return mobile
-
-  const scale = h / phone.w
-  const tan = Math.tan(base / 2)
-  return 2 * Math.atan(scale * tan) // 弧度
+  return equivalentFov(base, phone.w, h)
 })
 
 const state = reactive({
