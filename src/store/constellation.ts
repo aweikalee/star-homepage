@@ -1,7 +1,8 @@
 import { reactive, readonly } from 'vue'
 import { random } from '../webgl/utils'
-import { sites } from '../config'
+import { sites, variable } from '../config'
 
+const baseFov = variable.fov.base
 const rotationYBase = (2 * Math.PI) / sites.length
 const data = sites.map((site, i) => {
   const points = initPoints(site.points)
@@ -12,7 +13,7 @@ const data = sites.map((site, i) => {
     points,
     lines,
     rotationY: rotationYBase * i,
-    rotationX: Math.PI * random(-0.1, 0.1),
+    rotationX: baseFov * random(-0.5, 0.5),
   }
 })
 
@@ -24,17 +25,21 @@ export const constellation = readonly(state)
 
 function initPoints(points: number[]) {
   const len = Math.floor(points.length / 2)
-  const res = new Float32Array(len * 3)
+  const res = new Float32Array(len * 3 + 3)
+  const {
+    constellation: { scale, near, far },
+  } = variable
 
   for (let i = 0; i < len; i += 1) {
     const index = i * 2
     const position = [
       points[index],
       points[index + 1],
-      -600 + random(-100, 0),
-    ].map((v) => v * 0.01)
+      -random(near, far) / scale,
+    ].map((v) => v * scale)
     res.set(position, i * 3)
   }
+  res.set([0, 0, -6], len * 3)
 
   return res
 }

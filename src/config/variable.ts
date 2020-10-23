@@ -14,4 +14,9 @@ export const variable = {
     base: (30 / 360) * 2 * Math.PI,
     mobile: (50 / 360) * 2 * Math.PI,
   },
+  constellation: {
+    scale: 0.01,
+    near: 5,
+    far: 6,
+  },
 }

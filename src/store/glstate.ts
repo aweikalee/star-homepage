@@ -43,8 +43,8 @@ const controls = new (Orbit as any)(state.transform, {
   rotateSpeed: -0.03, // 旋转速度
   autoRotate: true, // 自动转动
   autoRotateSpeed: 0.06, // 自动转动速度
-  minPolarAngle: Math.PI / 2 - Math.PI / 16, // 最小纵向视角
-  maxPolarAngle: Math.PI / 2 + Math.PI / 16, // 最大纵向视角
+  minPolarAngle: Math.PI / 2 - variable.fov.base / 2, // 最小纵向视角
+  maxPolarAngle: Math.PI / 2 + variable.fov.base / 2, // 最大纵向视角
 } as OrbitOptions)
 function updateControls() {
   requestAnimationFrame(updateControls)
