@@ -5,6 +5,7 @@ import { useRaf } from '../../utils'
 import { createScene } from './scene/createScene'
 
 import styles from './styles.module.scss'
+import { variable } from '../../config'
 
 export default defineComponent({
   name: 'TheConstellation',
@@ -17,10 +18,12 @@ export default defineComponent({
 
     /* 重置尺寸 */
     const onResize = () => {
-      const { w, h } = viewport
+      const { w, h } = getViewport()
+      const fov = getFov()
+
       renderer?.setSize(w, h)
       camera?.perspective({
-        fov: glstate.fov * 180 / Math.PI,
+        fov: (fov * 180) / Math.PI,
         aspect: w / h,
       })
     }
@@ -54,3 +57,35 @@ export default defineComponent({
     return () => <canvas class={styles.constellation} ref={el}></canvas>
   },
 })
+
+function getViewport() {
+  const { w, h, isMobileInCSS, orientation } = viewport
+  const { phone } = variable
+
+  if (isMobileInCSS) return { w, h }
+
+  if (orientation === 'portrait') {
+    return phone
+  } else {
+    return {
+      w: phone.h,
+      h: phone.w,
+    }
+  }
+}
+
+function getFov() {
+  const { isMobileInCSS, orientation } = viewport
+  const { phone, baseFov } = variable
+
+  if (isMobileInCSS) return glstate.fov
+
+  if (orientation === 'portrait') {
+    const scale = phone.h / phone.w
+    if (scale < 1) return variable.baseFov
+    const tan = Math.tan(variable.baseFov / 2)
+    return 2 * Math.atan(scale * tan) // 弧度
+  } else {
+    return baseFov
+  }
+}
