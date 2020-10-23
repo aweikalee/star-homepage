@@ -4,8 +4,12 @@ import { variable } from '../config'
 import { viewport } from './viewport'
 
 const fov = computed(() => {
-  const scale = Math.max(viewport.h / variable.phone.w, 1)
-  const tan = Math.tan(variable.baseFov / 2)
+  const { baseFov, mobileFov, phone } = variable
+  const { h, isMobileInCSS } = viewport
+  if (isMobileInCSS) return mobileFov
+
+  const scale = h / phone.w
+  const tan = Math.tan(baseFov / 2)
   return 2 * Math.atan(scale * tan) // 弧度
 })
 

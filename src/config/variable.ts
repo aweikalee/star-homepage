@@ -11,4 +11,5 @@ export const variable = {
     h: Number(phone.phoneHeight),
   },
   baseFov: (30 / 360) * 2 * Math.PI,
+  mobileFov: (50 / 360) * 2 * Math.PI
 }
