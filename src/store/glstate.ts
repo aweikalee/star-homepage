@@ -1,28 +1,22 @@
 import { Orbit, OrbitOptions, Transform } from 'ogl-typescript'
-import { reactive, readonly, watch } from 'vue'
+import { reactive, readonly, computed } from 'vue'
 import { viewport } from './viewport'
 
+const fov = computed(() => {
+  const scale = Math.max(viewport.h / 450, 1)
+  const alpha = (30 * Math.PI) / 180
+  const tanAlpha = Math.tan(alpha / 2)
+  return 2 * Math.atan(scale * tanAlpha) // 弧度
+})
+
 const state = reactive({
-  fov: 30,
+  get fov() {
+    return fov.value
+  },
   transform: new Transform(),
 })
 
 export const glstate = readonly(state)
-
-/* fov */
-watch(
-  () => viewport.h,
-  (h) => {
-    const scale = Math.max(h / 450, 1)
-    const alpha = (30 * Math.PI) / 180
-    const tanAlpha = Math.tan(alpha / 2)
-    const beta = 2 * Math.atan(scale * tanAlpha)
-    const fov = (beta * 180) / Math.PI
-
-    state.fov = fov
-  },
-  { immediate: true }
-)
 
 /* transform */
 /**

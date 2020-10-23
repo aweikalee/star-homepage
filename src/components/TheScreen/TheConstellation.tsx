@@ -20,7 +20,7 @@ export default defineComponent({
       const { w, h } = viewport
       renderer?.setSize(w, h)
       camera?.perspective({
-        fov: glstate.fov,
+        fov: glstate.fov * 180 / Math.PI,
         aspect: w / h,
       })
     }
