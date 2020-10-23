@@ -10,8 +10,8 @@ export default defineComponent(() => {
 
   return () => (
     <>
-      <ThePhone>{() => <TheCamera>{() => <TheScreen />}</TheCamera>}</ThePhone>
       <TheStarrySky />
+      <ThePhone>{() => <TheCamera>{() => <TheScreen />}</TheCamera>}</ThePhone>
     </>
   )
 })
