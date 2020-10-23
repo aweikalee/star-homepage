@@ -1,5 +1,3 @@
-import { viewport } from '../../store/viewport'
-import { computed } from 'vue'
 import {
   Program,
   Geometry,
@@ -16,15 +14,16 @@ export interface IParticlesAttributes {
   positions: ArrayLike<number>
   sizes: ArrayLike<number>
   texture: Texture
+  uHeight: {
+    value: number
+  }
 }
-
-const uHeight = computed(() => viewport.h)
 
 export function createParticles(
   gl: OGLRenderingContext,
   attributes: IParticlesAttributes
 ) {
-  const { colors, opacities, positions, sizes, texture } = attributes
+  const { colors, opacities, positions, sizes, texture, uHeight } = attributes
 
   const geometry = new Geometry(gl, {
     color: { size: 3, data: colors },

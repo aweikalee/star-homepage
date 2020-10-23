@@ -1,8 +1,10 @@
 import { Color, OGLRenderingContext } from 'ogl-typescript'
-import { constellation } from '../../../store'
+import { constellation, viewport } from '../../../store'
 import { createTextureStar } from '../../../webgl/texture/createTextureStar'
 import { createParticles } from '../../../webgl/object/createParticles'
 import { createLines } from '../../../webgl/object/createLines'
+import { computed } from 'vue'
+import { variable } from '../../../config'
 
 export async function createConstellations(gl: OGLRenderingContext) {
   return (
@@ -15,6 +17,11 @@ export async function createConstellations(gl: OGLRenderingContext) {
 }
 
 const COLOR = new Color(0x76c4ff)
+const uHeight = computed(() => {
+  const { w, h } = viewport
+  const { phone } = variable
+  return h >= w ? phone.h : phone.w
+})
 export async function createConstellation(
   gl: OGLRenderingContext,
   site: typeof constellation.data[0]
@@ -30,7 +37,7 @@ export async function createConstellation(
   for (let i = 0; i < len; i += 1) {
     colors.set(COLOR, i * 3)
     opacities.set([1], i)
-    sizes.set([60], i)
+    sizes.set([80], i)
   }
 
   const paticles = createParticles(gl, {
@@ -39,6 +46,7 @@ export async function createConstellation(
     opacities,
     sizes,
     texture,
+    uHeight,
   })
 
   const line = createLines(gl, {

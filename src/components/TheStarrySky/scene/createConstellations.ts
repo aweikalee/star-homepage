@@ -1,5 +1,6 @@
-import { Color, OGLRenderingContext } from 'ogl-typescript'
-import { constellation } from '../../../store'
+import { computed } from 'vue'
+import { OGLRenderingContext } from 'ogl-typescript'
+import { constellation, viewport } from '../../../store'
 import { createTextureStar } from '../../../webgl/texture/createTextureStar'
 import { createParticles } from '../../../webgl/object/createParticles'
 import { createChromaScale } from '../../../webgl/utils'
@@ -11,6 +12,7 @@ export async function createConstellations(gl: OGLRenderingContext) {
 }
 
 const chroma = createChromaScale(0xff8080, 0x8080ff)
+const uHeight = computed(() => viewport.h)
 export async function createConstellation(
   gl: OGLRenderingContext,
   site: typeof constellation.data[0]
@@ -35,6 +37,7 @@ export async function createConstellation(
     opacities,
     sizes,
     texture,
+    uHeight
   })
 
   paticles.rotation.x += rotationX
