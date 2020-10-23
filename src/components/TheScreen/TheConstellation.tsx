@@ -76,16 +76,19 @@ function getViewport() {
 
 function getFov() {
   const { isMobileInCSS, orientation } = viewport
-  const { phone, baseFov } = variable
+  const {
+    phone,
+    fov: { base },
+  } = variable
 
   if (isMobileInCSS) return glstate.fov
 
   if (orientation === 'portrait') {
     const scale = phone.h / phone.w
-    if (scale < 1) return variable.baseFov
-    const tan = Math.tan(variable.baseFov / 2)
+    if (scale < 1) return base
+    const tan = Math.tan(base / 2)
     return 2 * Math.atan(scale * tan) // 弧度
   } else {
-    return baseFov
+    return base
   }
 }
