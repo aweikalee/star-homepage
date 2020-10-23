@@ -3,6 +3,6 @@ $screen-boundary-width: 1088px;
 $screen-boundary-height: 688px;
 
 :export {
-  screenBoundaryWidth: $screen-boundary-width;
-  screenBoundaryHeight: $screen-boundary-height;
+  screenBoundaryWidth: $screen-boundary-width / 1px;
+  screenBoundaryHeight: $screen-boundary-height / 1px;
 }

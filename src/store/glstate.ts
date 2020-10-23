@@ -1,12 +1,12 @@
 import { Orbit, OrbitOptions, Transform } from 'ogl-typescript'
 import { reactive, readonly, computed } from 'vue'
+import { variable } from '../config'
 import { viewport } from './viewport'
 
 const fov = computed(() => {
-  const scale = Math.max(viewport.h / 450, 1)
-  const alpha = (30 * Math.PI) / 180
-  const tanAlpha = Math.tan(alpha / 2)
-  return 2 * Math.atan(scale * tanAlpha) // 弧度
+  const scale = Math.max(viewport.h / variable.phone.w, 1)
+  const tan = Math.tan(variable.baseFov / 2)
+  return 2 * Math.atan(scale * tan) // 弧度
 })
 
 const state = reactive({

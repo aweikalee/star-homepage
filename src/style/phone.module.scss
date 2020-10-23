@@ -1,0 +1,7 @@
+$phone-width: 450px;
+$phone-height: 800px;
+
+:export {
+  phoneWidth: $phone-width / 1px;
+  phoneHeight: $phone-height / 1px;
+}
