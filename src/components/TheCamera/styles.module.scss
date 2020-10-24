@@ -18,6 +18,8 @@ $base-size: rem(1);
 }
 
 .toolbar {
+  position: relative;
+  z-index: 10;
   flex-basis: size(50);
   flex-shrink: 0;
   background-color: #000;
@@ -39,6 +41,8 @@ $base-size: rem(1);
 }
 
 .shutterbar {
+  position: relative;
+  z-index: 10;
   flex-basis: size(100);
   flex-shrink: 0;
   background-color: #000;

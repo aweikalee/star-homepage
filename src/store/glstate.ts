@@ -14,8 +14,19 @@ const fov = computed(() => {
   return equivalentFov(base, phone.w, h)
 })
 
+const toPx = computed(() => {
+  const ratio = viewport.h / (2 * Math.tan(state.fov / 2))
+
+  /* distance 应为正数 */
+  return (x: number, y: number, distance: number) => ({
+    x: (x / distance) * ratio,
+    y: -(y / distance) * ratio, // 坐标轴 y 方向相反
+  })
+})
+
 const state = reactive({
   fov,
+  toPx,
   camera: new Transform(),
 })
 

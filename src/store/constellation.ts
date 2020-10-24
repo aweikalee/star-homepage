@@ -75,7 +75,6 @@ function initPoints(points: number[]) {
     ].map((v) => v * scale)
     res.set(position, i * 3)
   }
-  res.set([0, 0, -6], len * 3)
 
   return res
 }
