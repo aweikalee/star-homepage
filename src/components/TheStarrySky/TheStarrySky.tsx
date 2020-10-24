@@ -20,7 +20,7 @@ export default defineComponent({
       const { w, h } = viewport
       renderer?.setSize(w, h)
       camera?.perspective({
-        fov: glstate.fov * 180 / Math.PI,
+        fov: (glstate.fov * 180) / Math.PI,
         aspect: w / h,
       })
     }
@@ -43,8 +43,7 @@ export default defineComponent({
 
     /* 动画 */
     useRaf(() => {
-      const {x, y, z} = glstate.transform.position
-      camera?.lookAt([x, -y, z])
+      camera?.rotation.copy(glstate.camera.rotation)
       renderer?.render({
         scene,
         camera,

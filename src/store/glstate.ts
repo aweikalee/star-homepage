@@ -16,23 +16,15 @@ const fov = computed(() => {
 
 const state = reactive({
   fov,
-  transform: new Transform(),
+  camera: new Transform(),
 })
 
 export const glstate = readonly(state)
 
 /* transform */
-/**
- * 原本 Orbit 是控制摄像机位置，并让摄像机 lookAt([0, 0, 0])
- * 此处逻辑变更为令摄像机 lookAt(transform.position)
- * 故 posision 的 y 需要反转为 -y
- * 即 camera.lookAt([x, -y, z])
- *
- * 另外如此修改后 transform.rotation 就等同于 camera.rotation，
- * 否则 rotation 还需要进行一次反转 （+ Math.PI）
- */
-state.transform.position.set(0, 0, 1)
-const controls = new (Orbit as any)(state.transform, {
+const transform = new Transform()
+transform.position.set(0, 0, 1)
+const controls = new (Orbit as any)(transform, {
   ease: 0.5, // 缓动
   enableZoom: false, // 允许缩放
   enablePan: false, // 允许平移
@@ -45,5 +37,6 @@ const controls = new (Orbit as any)(state.transform, {
 function updateControls() {
   requestAnimationFrame(updateControls)
   controls.update()
+  state.camera.lookAt(transform.position)
 }
 updateControls()

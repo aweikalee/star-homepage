@@ -27,7 +27,7 @@ const equivalentBaseFov = equivalentFov(
   variable.phone.h
 )
 const focus = computed(() => {
-  const { x, y } = glstate.transform.rotation
+  const { x, y } = glstate.camera.rotation
 
   /* 获取离当前视角中心最近的目标 */
   const rotationY = getPositiveMod(y + rotationYBase / 2, 2 * Math.PI)
@@ -45,7 +45,7 @@ const focus = computed(() => {
     return null
   }
 
-  if (Math.abs(target.rotationX + x) > validFov.x / 2) {
+  if (Math.abs(target.rotationX - x) > validFov.x / 2) {
     return null
   }
 

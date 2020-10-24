@@ -46,8 +46,7 @@ export default defineComponent({
 
     /* 动画 */
     useRaf(() => {
-      const { x, y, z } = glstate.transform.position
-      camera?.lookAt([x, -y, z])
+      camera?.rotation.copy(glstate.camera.rotation)
       renderer?.render({
         scene,
         camera,
