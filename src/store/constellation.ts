@@ -54,9 +54,7 @@ const focus = computed(() => {
 
 const state = reactive({
   data,
-  get focus() {
-    return focus.value
-  },
+  focus,
 })
 
 export const constellation = readonly(state)

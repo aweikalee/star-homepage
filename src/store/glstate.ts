@@ -15,9 +15,7 @@ const fov = computed(() => {
 })
 
 const state = reactive({
-  get fov() {
-    return fov.value
-  },
+  fov,
   transform: new Transform(),
 })
 
