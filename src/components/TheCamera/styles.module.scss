@@ -63,7 +63,12 @@ $base-size: rem(1);
     &__button {
       width: size(50);
       height: size(50);
+      cursor: pointer;
       background-color: #fff;
+      background-position: center;
+      background-size: cover;
+      border: 1px solid #fff;
+      border-radius: rem(6);
     }
   }
 
@@ -80,6 +85,7 @@ $base-size: rem(1);
       border: size(3) #fff solid;
       box-sizing: border-box;
       border-radius: 50%;
+      cursor: pointer;
 
       position: relative;
       &::before {
@@ -137,4 +143,39 @@ $base-size: rem(1);
   .shutterbar {
     flex-direction: column-reverse;
   }
+}
+
+/* album 相关动画 */
+.scale-in--active {
+  transition: transform 0.3s linear;
+}
+
+.scale-in--from {
+  transform: scale(0);
+}
+
+.scale-in--to {
+  transform: scale(1);
+}
+
+.mask {
+  position: absolute;
+  z-index: 10;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background-color: #000;
+}
+
+.fade-in--active {
+  transition: opacity 0.2s ease;
+}
+
+.fade-in--from {
+  opacity: 1;
+}
+
+.fade-in--to {
+  opacity: 0;
 }
