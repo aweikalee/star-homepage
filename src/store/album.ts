@@ -1,43 +1,49 @@
-import { computed, reactive, readonly } from 'vue'
+import { reactive, readonly } from 'vue'
 import { glstate } from './glstate'
 import { viewport } from './viewport'
 
 export type ITakePhoto = () => string
 
-const temp = document.createElement('canvas')
-const ctx = temp.getContext('2d')!
-let canvas: HTMLCanvasElement | null = null
-const toDataUrl = computed(() => {
-  const { w, h } = viewport
-  const {
-    view: { w: viewW, h: viewH },
-  } = glstate
-  temp.width = viewW
-  temp.height = viewH
-
-  const [drawX, drawY] = [(viewW - w) / 2, (viewH - h) / 2]
-
-  return () => {
-    if (!canvas) throw new Error('cannot find canvas')
-    ctx.clearRect(0, 0, viewW, viewH)
-    ctx.drawImage(canvas, drawX, drawY)
-    return temp.toDataURL()
-  }
-})
-
 const state = reactive({
   data: [] as string[],
-  toDataUrl,
   canvas: null as HTMLCanvasElement | null,
+  toDataUrl(...args: Parameters<HTMLCanvasElement['toDataURL']>) {
+    return draw().toDataURL(...args)
+  },
+  toBlob(...args: Parameters<HTMLCanvasElement['toDataURL']>) {
+    return new Promise<Blob | null>((resolve) => {
+      draw().toBlob((blob) => {
+        resolve(blob)
+      }, ...args)
+    })
+  },
 })
 
 export const album = readonly(state)
 
-export function setCanvas(value: HTMLCanvasElement) {
-  state.canvas = value
-  canvas = value
-}
-
 export function pushPhoto(value: string) {
   state.data.push(value)
+}
+
+export function setCanvas(value: HTMLCanvasElement) {
+  state.canvas = value
+}
+
+const canvas = document.createElement('canvas')
+const ctx = canvas.getContext('2d')!
+function draw() {
+  if (!state.canvas) throw new Error('cannot find canvas')
+
+  const { w, h } = viewport
+  const {
+    view: { w: viewW, h: viewH },
+  } = glstate
+
+  canvas.width = viewW
+  canvas.height = viewH
+
+  ctx.clearRect(0, 0, viewW, viewH)
+  ctx.drawImage(state.canvas, (viewW - w) / 2, (viewH - h) / 2)
+
+  return canvas
 }
