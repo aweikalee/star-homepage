@@ -4,7 +4,6 @@ import { createTextureStar } from '../../../webgl/texture/createTextureStar'
 import { createParticles } from '../../../webgl/object/createParticles'
 import { createLines } from '../../../webgl/object/createLines'
 import { computed } from 'vue'
-import { variable } from '../../../config'
 
 export async function createConstellations(gl: OGLRenderingContext) {
   return (
@@ -17,11 +16,7 @@ export async function createConstellations(gl: OGLRenderingContext) {
 }
 
 const COLOR = new Color(0x76c4ff)
-const uHeight = computed(() => {
-  const { w, h } = viewport
-  const { phone } = variable
-  return h >= w ? phone.h : phone.w
-})
+const uHeight = computed(() => viewport.h)
 export async function createConstellation(
   gl: OGLRenderingContext,
   site: typeof constellation.data[0]

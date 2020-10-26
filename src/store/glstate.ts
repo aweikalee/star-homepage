@@ -24,9 +24,26 @@ const toPx = computed(() => {
   })
 })
 
+const view = computed(() => {
+  const { w, h, isMobileInCSS, orientation } = viewport
+  const { phone } = variable
+
+  if (isMobileInCSS) return { w, h }
+
+  if (orientation === 'portrait') {
+    return phone
+  } else {
+    return {
+      w: phone.h,
+      h: phone.w,
+    }
+  }
+})
+
 const state = reactive({
   fov,
   toPx,
+  view,
   camera: new Transform(),
 })
 

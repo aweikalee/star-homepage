@@ -1,13 +1,5 @@
 @import '../../style/index.scss';
 
-.constellation {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  z-index: -1;
-}
-
 $border-width: rem(4);
 $border-radius: rem(18);
 .focus {
