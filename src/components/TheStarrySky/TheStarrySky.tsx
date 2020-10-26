@@ -5,7 +5,7 @@ import {
   Camera,
   OGLRenderingContext,
 } from 'ogl-typescript'
-import { glstate, viewport } from '../../store'
+import { glstate, setCanvas, viewport } from '../../store'
 import { useRaf } from '../../utils'
 import { createScene } from './scene/createScene'
 import { createScene as createSceneView } from './sceneView/createScene'
@@ -43,7 +43,7 @@ export default defineComponent({
     const initCanvas = () => {
       const canvas = el.value!
 
-      renderer = new Renderer({ canvas })
+      renderer = new Renderer({ canvas, preserveDrawingBuffer: true })
       gl = renderer.gl
 
       camera = new Camera(gl)
@@ -52,6 +52,7 @@ export default defineComponent({
       sceneView = createSceneView(gl)
 
       onResize()
+      setCanvas(canvas)
     }
     onMounted(initCanvas)
 

@@ -1,4 +1,5 @@
 import { defineComponent } from 'vue'
+import { album, pushPhoto } from '../../store'
 
 import styles from './styles.module.scss'
 
@@ -18,7 +19,13 @@ export default defineComponent({
             <div class={styles.album__button}></div>
           </div>
           <div class={styles.shutter}>
-            <div class={styles.shutter__button}></div>
+            <div
+              class={styles.shutter__button}
+              onClick={() => {
+                const url = album.toDataUrl()
+                pushPhoto(url)
+              }}
+            ></div>
           </div>
           <div class={styles.switch}>
             <div class={styles.switch__button}>📷</div>
