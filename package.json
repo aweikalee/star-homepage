@@ -15,10 +15,9 @@
     "@types/fs-extra": "^9.0.2",
     "@vue/compiler-sfc": "^3.0.1",
     "autoprefixer": "^9.8.6",
-    "patch-package": "^6.2.2",
     "typescript": "^4.0.3",
     "typescript-plugin-css-modules": "^2.7.0",
-    "vite": "^1.0.0-rc.4"
+    "vite": "^1.0.0-rc.6"
   },
   "browserslist": [
     "> 0.2%",
