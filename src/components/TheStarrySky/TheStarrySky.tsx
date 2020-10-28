@@ -45,6 +45,7 @@ export default defineComponent({
 
       renderer = new Renderer({ canvas, preserveDrawingBuffer: true })
       gl = renderer.gl
+      gl.clearColor(0, 0, 0, 1)
 
       camera = new Camera(gl)
 
