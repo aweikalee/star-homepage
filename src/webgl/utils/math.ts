@@ -3,6 +3,18 @@ export function random(min: number, max: number) {
 }
 
 /**
+ * 近似正态分布的随机数生成器
+ */
+export function randomGaussian() {
+  const loop = 3
+  let sum = 0.0
+  for (let i = 0; i < loop; i += 1) {
+    sum = sum + Math.random()
+  }
+  return sum / loop
+}
+
+/**
  * 创建单位长度的向量
  * 使用球坐标进行计算，输出时再转成直角坐标
  * @param u 影响 θ
