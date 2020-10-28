@@ -1,6 +1,7 @@
 attribute vec3 position;
 attribute vec3 color;
 attribute float opacity;
+attribute float random;
 attribute float size;
 
 uniform mat4 modelViewMatrix;
@@ -9,9 +10,11 @@ uniform mat4 projectionMatrix;
 uniform float uHeight;
 
 varying vec4 vColor;
+varying float vRandom;
 
 void main() {
   vColor = vec4(color, opacity);
+  vRandom = random;
 
   float scale = uHeight * projectionMatrix[1][1] / 900.0;
 

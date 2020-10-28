@@ -26,12 +26,14 @@ export async function createConstellation(
   const texture = createTextureStar(gl)
 
   const colors = new Float32Array(len * 4)
-  const sizes = new Float32Array(len)
   const opacities = new Float32Array(len)
+  const randoms = new Float32Array(len)
+  const sizes = new Float32Array(len)
 
   for (let i = 0; i < len; i += 1) {
     colors.set(COLOR, i * 3)
     opacities.set([1], i)
+    randoms.set([0], i)
     sizes.set([80], i)
   }
 
@@ -39,6 +41,7 @@ export async function createConstellation(
     positions: points,
     colors,
     opacities,
+    randoms,
     sizes,
     texture,
     uHeight,

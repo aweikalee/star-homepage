@@ -12,6 +12,7 @@ export interface IParticlesAttributes {
   colors: ArrayLike<number>
   opacities: ArrayLike<number>
   positions: ArrayLike<number>
+  randoms: ArrayLike<number>
   sizes: ArrayLike<number>
   texture: Texture
   uHeight: {
@@ -23,12 +24,21 @@ export function createParticles(
   gl: OGLRenderingContext,
   attributes: IParticlesAttributes
 ) {
-  const { colors, opacities, positions, sizes, texture, uHeight } = attributes
+  const {
+    colors,
+    opacities,
+    positions,
+    randoms,
+    sizes,
+    texture,
+    uHeight,
+  } = attributes
 
   const geometry = new Geometry(gl, {
     color: { size: 3, data: colors },
     opacity: { size: 1, data: opacities },
     position: { size: 3, data: positions },
+    random: { size: 1, data: randoms },
     size: { size: 1, data: sizes },
   })
 

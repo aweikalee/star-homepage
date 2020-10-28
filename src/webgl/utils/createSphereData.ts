@@ -6,22 +6,25 @@ export interface ISphereOptions {
   quantity: number
   radius: () => number
   size: () => number
+  random?: () => number
   u?: () => number
   v?: () => number
 }
 
 export async function createSphereData(options: ISphereOptions) {
-  const { color, opacity, quantity, size } = options
+  const { color, opacity, quantity, random = () => 0, size } = options
 
   const positions = new Float32Array(quantity * 3)
   const colors = new Float32Array(quantity * 3)
   const opacities = new Float32Array(quantity)
+  const randoms = new Float32Array(quantity)
   const sizes = new Float32Array(quantity)
 
   const helper = async (i: number) => {
     colors.set(color(), i * 3)
     opacities.set([opacity()], i)
     positions.set(createPosition(options), i * 3)
+    randoms.set([random()], i)
     sizes.set([size()], i)
   }
 
@@ -33,6 +36,7 @@ export async function createSphereData(options: ISphereOptions) {
     colors,
     opacities,
     positions,
+    randoms,
     sizes,
   }
 }
