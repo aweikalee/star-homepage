@@ -6,8 +6,10 @@ import {
   Transition,
   TransitionProps,
   watch,
+  h,
 } from 'vue'
 import { album, pushPhoto } from '../../store'
+import { preventOrbit } from '../../webgl/utils'
 
 import styles from './styles.module.scss'
 
@@ -64,7 +66,9 @@ export default defineComponent({
           <div class={styles.shutter}>
             <div
               class={styles.shutter__button}
-              onClick={async () => {
+              {...preventOrbit}
+              onClick={async (e) => {
+                preventOrbit.onClick(e)
                 state.mask = true
                 const blob = await album.toBlob()
                 const url = URL.createObjectURL(blob)

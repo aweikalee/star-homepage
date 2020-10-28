@@ -4,6 +4,7 @@ import { constellation, glstate } from '../../store'
 import { variable } from '../../config'
 
 import styles from './styles.module.scss'
+import { preventOrbit } from '../../webgl/utils'
 
 const { near, far } = variable.constellation
 
@@ -38,16 +39,6 @@ export default defineComponent({
       }
     })
 
-    let isDrag = false
-    const onDragstart = (e: Event) => {
-      isDrag = true
-      e.preventDefault()
-    }
-    const onClick = (e: Event) => {
-      if (isDrag) e.preventDefault()
-      isDrag = false
-    }
-
     return () => {
       const focus = constellation.focus
       if (!focus) return null
@@ -60,8 +51,7 @@ export default defineComponent({
             title={focus.title}
             style={style.value}
             target="blank"
-            onDragstart={onDragstart}
-            onClick={onClick}
+            {...preventOrbit}
           >
             <span></span>
             <span></span>
@@ -74,8 +64,7 @@ export default defineComponent({
               href={focus.url}
               title={focus.title}
               target="blank"
-              onDragstart={onDragstart}
-              onClick={onClick}
+              {...preventOrbit}
             >
               {focus.title}
             </a>

@@ -1,8 +1,9 @@
-import { Orbit, OrbitOptions, Transform } from 'ogl-typescript'
+import { Transform } from 'ogl-typescript'
 import { reactive, readonly, computed } from 'vue'
 import { variable } from '../config'
 import { equivalentFov } from '../utils'
 import { viewport } from './viewport'
+import { Orbit } from '../webgl/Orbit'
 
 const fov = computed(() => {
   const {
@@ -52,7 +53,7 @@ export const glstate = readonly(state)
 /* transform */
 const transform = new Transform()
 transform.position.set(0, 0, 1)
-const controls = new (Orbit as any)(transform, {
+const controls = new Orbit(transform, {
   ease: 0.5, // 缓动
   enableZoom: false, // 允许缩放
   enablePan: false, // 允许平移
@@ -61,7 +62,7 @@ const controls = new (Orbit as any)(transform, {
   autoRotateSpeed: 0.06, // 自动转动速度
   minPolarAngle: Math.PI / 2 - variable.fov.base / 2, // 最小纵向视角
   maxPolarAngle: Math.PI / 2 + variable.fov.base / 2, // 最大纵向视角
-} as OrbitOptions)
+})
 function updateControls() {
   requestAnimationFrame(updateControls)
   controls.update()
