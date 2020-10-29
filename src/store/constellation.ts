@@ -2,11 +2,9 @@ import { computed, reactive, readonly } from 'vue'
 import { random } from '../webgl/utils'
 import { sites, variable } from '../config'
 import { glstate } from './glstate'
-import { viewport } from './viewport'
 import { equivalentFov } from '../utils'
 
 const baseFov = variable.fov.base
-const mobileFov = variable.fov.mobile
 const rotationYBase = (2 * Math.PI) / sites.length
 const data = sites.map((site, i) => {
   const points = initPoints(site.points)
@@ -21,11 +19,15 @@ const data = sites.map((site, i) => {
   }
 })
 
-const equivalentBaseFov = equivalentFov(
-  baseFov,
-  variable.phone.w,
-  variable.phone.h
-)
+/* 有效视角范围  */
+const validFov = computed(() => {
+  const { w, h, fov } = glstate.view
+  return {
+    x: fov,
+    y: equivalentFov(fov, h, w),
+  }
+})
+
 const focus = computed(() => {
   const { x, y } = glstate.camera.rotation
 
@@ -35,17 +37,14 @@ const focus = computed(() => {
   const target = data[index]
 
   /* 有效视角范围 */
-  const validFov = getValidFov()
+  const fov = validFov.value
 
   /* 判断目标是否符合在有效区域内 */
-  if (
-    Math.abs(target.rotationY + rotationYBase / 2 - rotationY) >
-    validFov.y / 2
-  ) {
+  if (Math.abs(target.rotationY + rotationYBase / 2 - rotationY) > fov.y / 2) {
     return null
   }
 
-  if (Math.abs(target.rotationX - x) > validFov.x / 2) {
+  if (Math.abs(target.rotationX - x) > fov.x / 2) {
     return null
   }
 
@@ -105,25 +104,4 @@ function initLines(lines: number[], points: ArrayLike<number>) {
 function getPositiveMod(value: number, mod: number) {
   const v = value % mod
   return v < 0 ? v + mod : v
-}
-
-function getValidFov() {
-  const { w, h, isMobileInCSS, orientation } = viewport
-
-  let x: number
-  let y: number
-  if (isMobileInCSS) {
-    x = mobileFov
-    y = equivalentFov(mobileFov, h, w)
-  } else {
-    if (orientation === 'portrait') {
-      x = equivalentBaseFov
-      y = baseFov
-    } else {
-      x = baseFov
-      y = equivalentBaseFov
-    }
-  }
-
-  return { x, y }
 }

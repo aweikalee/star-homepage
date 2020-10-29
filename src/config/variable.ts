@@ -12,10 +12,13 @@ export const variable = {
   },
   fov: {
     base: (30 / 360) * 2 * Math.PI,
-    mobile: (50 / 360) * 2 * Math.PI,
+    mobile: {
+      portrait: (50 / 360) * 2 * Math.PI,
+      landscape: (30 / 360) * 2 * Math.PI,
+    },
   },
   constellation: {
-    scale: 0.01,
+    scale: 0.008,
     near: 5,
     far: 6,
   },

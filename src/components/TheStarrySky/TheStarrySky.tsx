@@ -26,9 +26,7 @@ export default defineComponent({
     /* 重置尺寸 */
     const onResize = () => {
       const { w, h } = viewport
-      const {
-        view: { w: viewW, h: viewH },
-      } = glstate
+      const { w: viewW, h: viewH } = glstate.view
 
       renderer?.setSize(w, h)
       camera?.perspective({

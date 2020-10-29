@@ -6,17 +6,44 @@ import { viewport } from './viewport'
 import { Orbit } from '../webgl/Orbit'
 
 const fov = computed(() => {
-  const {
-    fov: { base, mobile },
-    phone,
-  } = variable
-  const { h, isMobileInCSS } = viewport
-  if (isMobileInCSS) return mobile
-  return equivalentFov(base, phone.w, h)
+  const { fov, phone } = variable
+  const { h, isMobileInCSS, orientation } = viewport
+
+  if (isMobileInCSS) {
+    return fov.mobile[orientation]
+  } else {
+    return equivalentFov(fov.base, phone.w, h)
+  }
+})
+
+const view = computed(() => {
+  const { w, h, isMobileInCSS, orientation } = viewport
+  const { phone } = variable
+
+  const res = {
+    w,
+    h,
+    fov: fov.value,
+  }
+
+  if (!isMobileInCSS) {
+    if (orientation === 'portrait') {
+      res.w = phone.w
+      res.h = phone.h
+    } else {
+      res.w = phone.h
+      res.h = phone.w
+    }
+
+    res.fov = equivalentFov(res.fov, h, res.h)
+  }
+
+  return res
 })
 
 const toPx = computed(() => {
-  const ratio = viewport.h / (2 * Math.tan(state.fov / 2))
+  const { h, fov } = view.value
+  const ratio = h / (2 * Math.tan(fov / 2))
 
   /* distance 应为正数 */
   return (x: number, y: number, distance: number) => ({
@@ -25,26 +52,10 @@ const toPx = computed(() => {
   })
 })
 
-const view = computed(() => {
-  const { w, h, isMobileInCSS, orientation } = viewport
-  const { phone } = variable
-
-  if (isMobileInCSS) return { w, h }
-
-  if (orientation === 'portrait') {
-    return phone
-  } else {
-    return {
-      w: phone.h,
-      h: phone.w,
-    }
-  }
-})
-
 const state = reactive({
   fov,
-  toPx,
   view,
+  toPx,
   camera: new Transform(),
 })
 
