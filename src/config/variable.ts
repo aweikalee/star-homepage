@@ -22,4 +22,7 @@ export const variable = {
     near: 5,
     far: 6,
   },
+  album: {
+    imageQuality: 1000 * 600,
+  },
 }

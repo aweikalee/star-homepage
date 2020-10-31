@@ -4,9 +4,7 @@ import {
   nextTick,
   reactive,
   Transition,
-  TransitionProps,
   watch,
-  h,
 } from 'vue'
 import { album, pushPhoto } from '../../store'
 import { preventOrbit } from '../../webgl/utils'
@@ -67,10 +65,11 @@ export default defineComponent({
             <div
               class={styles.shutter__button}
               {...preventOrbit}
-              onClick={async (e) => {
+              onClick={(e) => {
                 preventOrbit.onClick(e)
                 state.mask = true
-                const blob = await album.toBlob()
+
+                const blob = album.takePhoto()
                 const url = URL.createObjectURL(blob)
                 pushPhoto(url)
               }}
