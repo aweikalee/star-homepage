@@ -69,9 +69,10 @@ export default defineComponent({
                 preventOrbit.onClick(e)
                 state.mask = true
 
-                const blob = album.takePhoto()
-                const url = URL.createObjectURL(blob)
-                pushPhoto(url)
+                album.takePhoto().toBlob((blob) => {
+                  const url = URL.createObjectURL(blob)
+                  pushPhoto(url)
+                })
               }}
             ></div>
           </div>

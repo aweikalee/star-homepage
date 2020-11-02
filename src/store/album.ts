@@ -1,12 +1,16 @@
 import { reactive, readonly } from 'vue'
+import { createCanvasFromImageData } from '../utils'
 
-export type ITakePhoto = () => Blob
+export type ITakePhoto = () => HTMLCanvasElement
 
 const state = reactive({
   data: [] as string[],
   takePhoto: (() => {}) as ITakePhoto,
-  setTakePhoto(render: ITakePhoto) {
-    state.takePhoto = () => render()
+  setTakePhoto(createImageData: () => ImageData) {
+    state.takePhoto = () => {
+      const data = createImageData()
+      return createCanvasFromImageData(data)
+    }
   },
 })
 

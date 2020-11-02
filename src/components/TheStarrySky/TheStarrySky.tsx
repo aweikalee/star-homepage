@@ -7,7 +7,7 @@ import {
   RenderTarget,
 } from 'ogl-typescript'
 import { album, glstate, viewport } from '../../store'
-import { useRaf, createBMP } from '../../utils'
+import { useRaf } from '../../utils'
 import { createScene } from './scene/createScene'
 import { createScene as createSceneView } from './sceneView/createScene'
 
@@ -57,6 +57,7 @@ export default defineComponent({
 
       camera = new Camera(gl)
       cameraView = new Camera(gl)
+      cameraView.scale.y = -1 // 平面 与 webgl 坐标 y 轴相反
 
       scene = createScene(gl)
       sceneView = createSceneView(gl)
@@ -93,18 +94,12 @@ export default defineComponent({
           clear: false,
         })
 
-        const pixels = new Uint8Array(w * h * 4)
+        const pixels = new Uint8ClampedArray(w * h * 4)
         gl!.bindFramebuffer(gl!.FRAMEBUFFER, target!.buffer)
         gl!.readPixels(0, 0, w, h, gl!.RGBA, gl!.UNSIGNED_BYTE, pixels)
         gl!.bindFramebuffer(gl!.FRAMEBUFFER, null)
 
-        const blob = createBMP({
-          data: removeAlpha(pixels),
-          width: w,
-          height: h,
-        })
-
-        return blob
+        return new ImageData(pixels, w, h)
       })
     }
     onMounted(initCanvas)
@@ -133,19 +128,3 @@ export default defineComponent({
     return () => <canvas class={styles.starry} ref={el}></canvas>
   },
 })
-
-function removeAlpha(data: Uint8Array) {
-  const size = Math.floor(data.length / 4)
-  const res = new Uint8Array(size * 3)
-  let step3 = 0
-  let step4 = 0
-  for (let i = 0; i < size; i += 1) {
-    res[step3] = data[step4]
-    res[step3 + 1] = data[step4 + 1]
-    res[step3 + 2] = data[step4 + 2]
-
-    step3 += 3
-    step4 += 4
-  }
-  return res
-}
