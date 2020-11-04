@@ -51,7 +51,11 @@ export default defineComponent({
     const initCanvas = () => {
       const canvas = el.value!
 
-      renderer = new Renderer({ canvas, preserveDrawingBuffer: true })
+      renderer = new Renderer({
+        canvas,
+        preserveDrawingBuffer: true,
+        antialias: true,
+      })
       gl = renderer.gl
       gl.clearColor(0, 0, 0, 1)
 
