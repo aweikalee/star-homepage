@@ -60,7 +60,7 @@ export const constellation = readonly(state)
 
 function initPoints(points: number[]) {
   const len = Math.floor(points.length / 2)
-  const res = new Float32Array(len * 3 + 3)
+  const res = new Float32Array(len * 3)
   const {
     constellation: { scale, near, far },
   } = variable
