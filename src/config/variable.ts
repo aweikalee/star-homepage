@@ -23,6 +23,6 @@ export const variable = {
     far: 6,
   },
   album: {
-    imageQuality: 1000 * 600,
+    imageQuality: 1920 * 1080,
   },
 }
