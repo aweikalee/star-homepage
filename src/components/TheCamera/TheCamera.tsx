@@ -16,7 +16,7 @@ export default defineComponent({
   setup(props, { slots }) {
     const state = reactive({
       showAlbumButton: true, // 用于产生 album 按钮刷新动画
-      mask: false,
+      shutterMask: false,
     })
 
     const thumbnail = computed<string | undefined>(() => {
@@ -28,6 +28,25 @@ export default defineComponent({
         state.showAlbumButton = true
       })
     })
+
+    const onShutterClick = (e: Event) => {
+      preventOrbit.onClick(e)
+      state.shutterMask = true
+    }
+
+    const onShutterClosed = () => {
+      try {
+        album.takePhoto().toBlob((blob) => {
+          state.shutterMask = false
+
+          const url = URL.createObjectURL(blob)
+          pushPhoto(url)
+        })
+      } catch (err) {
+        state.shutterMask = false
+        throw err
+      }
+    }
 
     return () => (
       <div class={styles.camera}>
@@ -65,15 +84,7 @@ export default defineComponent({
             <div
               class={styles.shutter__button}
               {...preventOrbit}
-              onClick={(e) => {
-                preventOrbit.onClick(e)
-                state.mask = true
-
-                album.takePhoto().toBlob((blob) => {
-                  const url = URL.createObjectURL(blob)
-                  pushPhoto(url)
-                })
-              }}
+              onClick={onShutterClick}
             ></div>
           </div>
 
@@ -86,9 +97,9 @@ export default defineComponent({
           leaveActiveClass={styles['fade-in--active']}
           leaveFromClass={styles['fade-in--from']}
           leaveToClass={styles['fade-in--to']}
-          onEnter={() => (state.mask = false)}
+          onEnter={onShutterClosed}
         >
-          {() => state.mask && <div class={styles.mask}></div>}
+          {() => state.shutterMask && <div class={styles.mask}></div>}
         </Transition>
       </div>
     )
