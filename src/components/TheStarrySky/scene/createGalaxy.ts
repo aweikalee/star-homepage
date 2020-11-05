@@ -4,7 +4,7 @@ import vertex from '../../../webgl/object/sphere.vert'
 import fragment from '../../../webgl/object/sphere.frag'
 
 export async function createGalaxy(gl: OGLRenderingContext) {
-  const geometry = new Sphere(gl, { radius: 100, widthSegments: 32 })
+  const geometry = new Sphere(gl, { radius: 20, widthSegments: 32 })
 
   const texture = createTextureGalaxy(gl)
 

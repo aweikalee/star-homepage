@@ -4,7 +4,7 @@ import { createChromaScale, random, randomGaussian } from '../utils'
 import { EasyDraw } from './easydraw'
 
 export async function createCanvasGalaxy() {
-  const h = 2500
+  const h = 2048
   const w = h * 2
 
   const ed = new EasyDraw({

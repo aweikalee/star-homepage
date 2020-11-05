@@ -25,7 +25,6 @@ export default defineComponent({
     let sceneView: Transform | undefined
     let camera: Camera | undefined
     let cameraView: Camera | undefined
-    let stop = false
 
     /* 重置尺寸 */
     const onResize = () => {
@@ -98,12 +97,13 @@ export default defineComponent({
           clear: false,
         })
 
-        const pixels = new Uint8ClampedArray(w * h * 4)
+        const pixels = new Uint8Array(w * h * 4)
+        // readPixels 的 dstData 中直接使用 Uint8ClampedArray，在 safari 中无法获得数据
         gl!.bindFramebuffer(gl!.FRAMEBUFFER, target!.buffer)
         gl!.readPixels(0, 0, w, h, gl!.RGBA, gl!.UNSIGNED_BYTE, pixels)
         gl!.bindFramebuffer(gl!.FRAMEBUFFER, null)
 
-        return new ImageData(pixels, w, h)
+        return new ImageData(new Uint8ClampedArray(pixels), w, h)
       })
     }
     onMounted(initCanvas)
@@ -111,7 +111,6 @@ export default defineComponent({
     /* 动画 */
     useRaf(() => {
       if (!camera || !renderer || !gl) return
-      if (stop) return
 
       camera.rotation.copy(glstate.camera.rotation)
 

@@ -25,7 +25,7 @@ export async function createConstellation(
   const len = Math.floor(points.length / 3)
   const texture = createTextureStar(gl)
 
-  const colors = new Float32Array(len * 4)
+  const colors = new Float32Array(len * 3)
   const opacities = new Float32Array(len)
   const randoms = new Float32Array(len)
   const sizes = new Float32Array(len)
