@@ -65,6 +65,7 @@ export const glstate = readonly(state)
 const transform = new Transform()
 transform.position.set(0, 0, 1)
 const controls = new Orbit(transform, {
+  element: document.getElementById('app')!,
   ease: 0.5, // 缓动
   enableZoom: false, // 允许缩放
   enablePan: false, // 允许平移
