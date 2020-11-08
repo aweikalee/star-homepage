@@ -15,6 +15,7 @@ import {
   setAlbumVisible,
 } from '../../store'
 import { preventOrbit } from '../../webgl/utils'
+import ToolBar from './ToolBar'
 
 import styles from './styles.module.scss'
 
@@ -61,11 +62,7 @@ export default defineComponent({
 
     return () => (
       <div class={styles.camera}>
-        <div class={styles.toolbar}>
-          {['🐁', '🐂', '🐅', '🐇', '🐏'].map((v) => (
-            <div class={styles.toolbar__button}>{v}</div>
-          ))}
-        </div>
+        <ToolBar/>
 
         <div class={styles.view}>{slots.default?.()}</div>
 

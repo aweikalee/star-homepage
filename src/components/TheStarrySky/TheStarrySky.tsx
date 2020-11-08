@@ -6,11 +6,10 @@ import {
   OGLRenderingContext,
   RenderTarget,
 } from 'ogl-typescript'
-import { album, glstate, viewport } from '../../store'
+import { album, camera as cameraStore, glstate, viewport } from '../../store'
 import { useRaf } from '../../utils'
 import { createScene } from './scene/createScene'
 import { createScene as createSceneView } from './sceneView/createScene'
-
 import styles from './styles.module.scss'
 import { variable } from '../../config'
 
@@ -90,12 +89,14 @@ export default defineComponent({
           target,
         })
 
-        renderer!.render({
-          camera: cameraView,
-          scene: sceneView,
-          target,
-          clear: false,
-        })
+        if (cameraStore.constellation) {
+          renderer!.render({
+            camera: cameraView,
+            scene: sceneView,
+            target,
+            clear: false,
+          })
+        }
 
         const pixels = new Uint8Array(w * h * 4)
         // readPixels 的 dstData 中直接使用 Uint8ClampedArray，在 safari 中无法获得数据
@@ -120,12 +121,14 @@ export default defineComponent({
         camera,
       })
 
-      gl.enable(gl.SCISSOR_TEST)
-      renderer.render({
-        scene: sceneView,
-        camera,
-        clear: false,
-      })
+      if (cameraStore.constellation) {
+        gl.enable(gl.SCISSOR_TEST)
+        renderer.render({
+          scene: sceneView,
+          camera,
+          clear: false,
+        })
+      }
     })
 
     return () => <canvas class={styles.starry} ref={el}></canvas>
