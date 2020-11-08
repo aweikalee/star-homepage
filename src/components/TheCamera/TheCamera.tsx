@@ -2,11 +2,18 @@ import {
   computed,
   defineComponent,
   nextTick,
+  onUnmounted,
   reactive,
+  ref,
   Transition,
   watch,
 } from 'vue'
-import { album, pushPhoto } from '../../store'
+import {
+  album,
+  pushPhoto,
+  setAlbumButtonElement,
+  setAlbumVisible,
+} from '../../store'
 import { preventOrbit } from '../../webgl/utils'
 
 import styles from './styles.module.scss'
@@ -48,6 +55,10 @@ export default defineComponent({
       }
     }
 
+    const elButton = ref<HTMLElement>()
+    watch(elButton, (el) => setAlbumButtonElement(el ?? null))
+    onUnmounted(() => setAlbumButtonElement(null))
+
     return () => (
       <div class={styles.camera}>
         <div class={styles.toolbar}>
@@ -74,6 +85,9 @@ export default defineComponent({
                         ? `url(${thumbnail.value})`
                         : undefined,
                     }}
+                    {...preventOrbit}
+                    onClick={(e) => setAlbumVisible(true)}
+                    ref={elButton}
                   ></div>
                 )
               }
