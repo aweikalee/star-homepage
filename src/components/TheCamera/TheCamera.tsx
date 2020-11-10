@@ -93,6 +93,7 @@ export default defineComponent({
           <div class={styles.shutter}>
             <div
               class={styles.shutter__button}
+              data-active={state.timerVisible}
               {...preventOrbit}
               onClick={(e) => {
                 preventOrbit.onClick(e)
