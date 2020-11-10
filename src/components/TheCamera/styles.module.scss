@@ -188,3 +188,30 @@ $base-size: rem(1);
 .fade-in--to {
   opacity: 0;
 }
+
+/* timer */
+.timer {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #fff;
+  font-size: rem(120);
+  text-shadow: 0 0 rem(10) #000;
+  animation: timer 1s 1;
+}
+
+@keyframes timer {
+  0% {
+    opacity: 0;
+  }
+  30% {
+    opacity: 1;
+  }
+  70% {
+    opacity: 1;
+  }
+  100% {
+    opacity: 0;
+  }
+}

@@ -16,6 +16,7 @@ import {
 } from '../../store'
 import { preventOrbit } from '../../webgl/utils'
 import ToolBar from './ToolBar'
+import Timer from './Timer'
 
 import styles from './styles.module.scss'
 
@@ -23,48 +24,46 @@ export default defineComponent({
   name: 'TheCamera',
   setup(props, { slots }) {
     const state = reactive({
-      showAlbumButton: true, // 用于产生 album 按钮刷新动画
+      albumButtonVisible: true, // 用于产生 album 按钮刷新动画
       shutterMask: false,
+      timerVisible: false,
     })
 
     const thumbnail = computed<string | undefined>(() => {
       return album.data[album.data.length - 1]
     })
     watch(thumbnail, () => {
-      state.showAlbumButton = false
-      nextTick(() => {
-        state.showAlbumButton = true
-      })
+      state.albumButtonVisible = false
+      nextTick(() => (state.albumButtonVisible = true))
     })
 
-    const onShutterClick = (e: Event) => {
-      preventOrbit.onClick(e)
-      state.shutterMask = true
+    const runTakePhoto = () => (state.shutterMask = true)
+    const takePhoto = () => {
+      album.takePhoto().toBlob((blob) => {
+        const url = URL.createObjectURL(blob)
+        pushPhoto(url)
+      })
+      state.shutterMask = false
+    }
+    const toggleTimer = () => (state.timerVisible = !state.timerVisible)
+    const onTimerEnd = () => {
+      state.timerVisible = false
+      runTakePhoto()
     }
 
-    const onShutterClosed = () => {
-      try {
-        album.takePhoto().toBlob((blob) => {
-          state.shutterMask = false
-
-          const url = URL.createObjectURL(blob)
-          pushPhoto(url)
-        })
-      } catch (err) {
-        state.shutterMask = false
-        throw err
-      }
-    }
-
+    /* 提交elButton 用于计算 TheAblum 显隐动画 Origin */
     const elButton = ref<HTMLElement>()
     watch(elButton, (el) => setAlbumButtonElement(el ?? null))
     onUnmounted(() => setAlbumButtonElement(null))
 
     return () => (
       <div class={styles.camera}>
-        <ToolBar/>
+        <ToolBar />
 
-        <div class={styles.view}>{slots.default?.()}</div>
+        <div class={styles.view}>
+          {slots.default?.()}
+          {state.timerVisible && <Timer onTimeUp={onTimerEnd} />}
+        </div>
 
         <div class={styles.shutterbar}>
           <div class={styles.album}>
@@ -74,7 +73,7 @@ export default defineComponent({
               enterToClass={styles['scale-in--to']}
             >
               {() =>
-                state.showAlbumButton && (
+                state.albumButtonVisible && (
                   <div
                     class={styles.album__button}
                     style={{
@@ -95,7 +94,10 @@ export default defineComponent({
             <div
               class={styles.shutter__button}
               {...preventOrbit}
-              onClick={onShutterClick}
+              onClick={(e) => {
+                preventOrbit.onClick(e)
+                toggleTimer()
+              }}
             ></div>
           </div>
 
@@ -108,7 +110,7 @@ export default defineComponent({
           leaveActiveClass={styles['fade-in--active']}
           leaveFromClass={styles['fade-in--from']}
           leaveToClass={styles['fade-in--to']}
-          onEnter={onShutterClosed}
+          onEnter={takePhoto}
         >
           {() => state.shutterMask && <div class={styles.mask}></div>}
         </Transition>
