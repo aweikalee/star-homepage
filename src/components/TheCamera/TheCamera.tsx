@@ -39,11 +39,14 @@ export default defineComponent({
 
     const runTakePhoto = () => (state.shutterMask = true)
     const takePhoto = () => {
-      album.takePhoto().toBlob((blob) => {
+      const canvas = album.takePhoto()
+      if (!canvas) return (state.shutterMask = false)
+
+      canvas.toBlob((blob) => {
         const url = URL.createObjectURL(blob)
         pushPhoto(url)
+        state.shutterMask = false
       })
-      state.shutterMask = false
     }
     const toggleTimer = () => (state.timerVisible = !state.timerVisible)
     const onTimerEnd = () => {
