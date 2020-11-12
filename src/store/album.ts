@@ -1,10 +1,24 @@
-import { reactive, readonly } from 'vue'
+import { computed, reactive, readonly } from 'vue'
+import { variable } from '../config'
 import { createCanvasFromImageData } from '../utils'
+import { glstate } from './glstate'
 
 export type ITakePhoto = () => HTMLCanvasElement | void
 
+const view = computed(() => {
+  const view = glstate.view
+  const imageQuality = variable.album.imageQuality
+  const aspect = view.w / view.h
+
+  const w = (Math.sqrt(imageQuality * aspect) >> 1) << 1
+  const h = ((w / aspect) >> 1) << 1
+
+  return { w, h }
+})
+
 const state = reactive({
   /* photo */
+  view,
   data: [] as string[],
   takePhoto: (() => {}) as ITakePhoto,
   setTakePhoto(createImageData: () => ImageData | void) {

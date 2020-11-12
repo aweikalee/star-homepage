@@ -129,8 +129,8 @@ export default defineComponent({
     watch(
       () => ({
         post: postView.value,
-        w: glstate.view.w,
-        h: glstate.view.h,
+        w: album.view.w,
+        h: album.view.h,
       }),
       ({ post, w, h }) => {
         post?.resize({
@@ -197,12 +197,7 @@ export default defineComponent({
 
       _cameraView.rotation.copy(_camera.rotation)
 
-      const view = glstate.view
-      const imageQuality = variable.album.imageQuality
-      const aspect = view.w / view.h
-
-      const w = (Math.sqrt(imageQuality * aspect) >> 1) << 1
-      const h = ((w / aspect) >> 1) << 1
+      const { w, h } = album.view
 
       const target = new RenderTarget(_gl, {
         width: w,

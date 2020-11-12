@@ -8,7 +8,7 @@ const state = reactive({
   constellation: true,
 
   /* 拍摄延时 */
-  delay: DELAY[1],
+  delay: DELAY[0],
 
   /* 色彩平衡 */
   balance: new Vec3(1, 1, 1),
