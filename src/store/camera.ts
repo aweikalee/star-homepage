@@ -4,8 +4,11 @@ import { reactive, readonly } from 'vue'
 const DELAY = [0, 3000, 10000]
 
 const state = reactive({
-  /* 显示星座 */
-  constellation: true,
+  /* 组件可见状态 */
+  visible: {
+    constellation: false, // 星座
+    timer: false, // 定时器
+  },
 
   /* 拍摄延时 */
   delay: DELAY[0],
@@ -19,12 +22,15 @@ const state = reactive({
 
 export const camera = readonly(state)
 
-export function setCameraConstellation(value: boolean) {
-  state.constellation = value
+export function setCameraVisible(
+  key: keyof typeof state.visible,
+  value: boolean
+) {
+  state.visible[key] = value
 }
 
-export function toggleCameraConstellation() {
-  setCameraConstellation(!state.constellation)
+export function toggleCameraVisible(key: keyof typeof state.visible) {
+  setCameraVisible(key, !state.visible[key])
 }
 
 export function setCameraDelay(value: number) {

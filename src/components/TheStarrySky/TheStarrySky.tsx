@@ -180,7 +180,7 @@ export default defineComponent({
         scene: _scene,
       })
 
-      if (cameraStore.constellation) {
+      if (cameraStore.visible.constellation) {
         _renderer.render({
           camera: camera.value,
           scene: _sceneView,
@@ -218,7 +218,7 @@ export default defineComponent({
         target,
       })
 
-      if (cameraStore.constellation) {
+      if (cameraStore.visible.constellation) {
         _renderer.render({
           camera: _cameraView,
           scene: _sceneView,

@@ -10,9 +10,12 @@ import {
 } from 'vue'
 import {
   album,
+  camera,
   pushPhoto,
   setAlbumButtonElement,
   setAlbumVisible,
+  setCameraVisible,
+  toggleCameraVisible,
 } from '../../store'
 import { preventOrbit } from '../../webgl/utils'
 import ToolBar from './ToolBar'
@@ -26,7 +29,6 @@ export default defineComponent({
     const state = reactive({
       albumButtonVisible: true, // 用于产生 album 按钮刷新动画
       shutterMask: false,
-      timerVisible: false,
     })
 
     const thumbnail = computed<string | undefined>(() => {
@@ -48,9 +50,8 @@ export default defineComponent({
         state.shutterMask = false
       })
     }
-    const toggleTimer = () => (state.timerVisible = !state.timerVisible)
     const onTimerEnd = () => {
-      state.timerVisible = false
+      setCameraVisible('timer', false)
       runTakePhoto()
     }
 
@@ -65,7 +66,7 @@ export default defineComponent({
 
         <div class={styles.view}>
           {slots.default?.()}
-          {state.timerVisible && <Timer onTimeUp={onTimerEnd} />}
+          {camera.visible.timer && <Timer onTimeUp={onTimerEnd} />}
         </div>
 
         <div class={styles.shutterbar}>
@@ -96,11 +97,11 @@ export default defineComponent({
           <div class={styles.shutter}>
             <div
               class={styles.shutter__button}
-              data-active={state.timerVisible}
+              data-active={camera.visible.timer}
               {...preventOrbit}
               onClick={(e) => {
                 preventOrbit.onClick(e)
-                toggleTimer()
+                toggleCameraVisible('timer')
               }}
             ></div>
           </div>

@@ -1,9 +1,5 @@
 import { defineComponent } from 'vue'
-import {
-  camera,
-  toggleCameraConstellation,
-  toggleCameraDelay,
-} from '../../store'
+import { camera, toggleCameraVisible, toggleCameraDelay } from '../../store'
 
 import styles from './styles.module.scss'
 
@@ -14,8 +10,8 @@ export default defineComponent({
       <div class={styles.toolbar}>
         <div
           class={styles.toolbar__button}
-          data-active={camera.constellation}
-          onClick={toggleCameraConstellation}
+          data-active={camera.visible.constellation}
+          onClick={() => toggleCameraVisible('constellation')}
         >
           星座
         </div>
