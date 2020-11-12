@@ -6,7 +6,6 @@ import { createScene } from './scene/createScene'
 import { createScene as createSceneView } from './sceneView/createScene'
 import { createPost } from './post/createPost'
 import styles from './styles.module.scss'
-import { variable } from '../../config'
 
 export default defineComponent({
   name: 'TheStarrySky',
@@ -37,9 +36,7 @@ export default defineComponent({
     /* 仅视口区域内存在的内容 */
     const sceneView = computed(() => {
       if (!gl.value || !scene.value) return
-      const sceneView = createSceneView(gl.value)
-      scene.value.setParent(sceneView)
-      return sceneView
+      return createSceneView(gl.value)
     })
 
     const camera = computed(() => {
@@ -180,20 +177,29 @@ export default defineComponent({
       _gl.enable(_gl.SCISSOR_TEST)
       _post.render({
         camera: camera.value,
-        scene: cameraStore.constellation ? _sceneView : _scene,
+        scene: _scene,
       })
+
+      if (cameraStore.constellation) {
+        _renderer.render({
+          camera: camera.value,
+          scene: _sceneView,
+          clear: false,
+        })
+      }
     })
 
     /* 设置 takePhoto */
     album.setTakePhoto(() => {
       const _gl = gl.value
+      const _renderer = renderer.value
       const _scene = scene.value
       const _sceneView = sceneView.value
       const _camera = camera.value
       const _cameraView = cameraView.value
       const _postView = postView.value
 
-      if (!_gl || !_camera || !_cameraView || !_postView) return
+      if (!_gl || !_renderer || !_camera || !_cameraView || !_postView) return
 
       _cameraView.rotation.copy(_camera.rotation)
 
@@ -208,9 +214,18 @@ export default defineComponent({
 
       _postView.render({
         camera: _cameraView,
-        scene: cameraStore.constellation ? _sceneView : _scene,
+        scene: _scene,
         target,
       })
+
+      if (cameraStore.constellation) {
+        _renderer.render({
+          camera: _cameraView,
+          scene: _sceneView,
+          target,
+          clear: false,
+        })
+      }
 
       const pixels = new Uint8Array(w * h * 4)
       // readPixels 的 dstData 中直接使用 Uint8ClampedArray，在 safari 中无法获得数据
