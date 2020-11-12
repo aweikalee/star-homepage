@@ -1,9 +1,10 @@
 import { computed, defineComponent, onUnmounted, ref, watch } from 'vue'
-import { Renderer, Camera, RenderTarget } from 'ogl-typescript'
+import { Renderer, Camera, RenderTarget, Post } from 'ogl-typescript'
 import { album, camera as cameraStore, glstate, viewport } from '../../store'
 import { useRaf } from '../../utils'
 import { createScene } from './scene/createScene'
 import { createScene as createSceneView } from './sceneView/createScene'
+import { createPost } from './post/createPost'
 import styles from './styles.module.scss'
 import { variable } from '../../config'
 
@@ -54,6 +55,17 @@ export default defineComponent({
       return camera
     })
 
+    const post = computed(() => {
+      if (!gl.value) return
+      return createPost(gl.value)
+    })
+
+    /* 进行拍照时 采用的 Post */
+    const postView = computed(() => {
+      if (!gl.value) return
+      return createPost(gl.value)
+    })
+
     /* Renderer */
     watch(
       () => ({
@@ -100,6 +112,52 @@ export default defineComponent({
       }
     )
 
+    /* Post */
+    watch(
+      () => ({
+        post: post.value,
+        w: viewport.w,
+        h: viewport.h,
+      }),
+      ({ post, w, h }) => {
+        post?.resize({
+          width: w,
+          height: h,
+        })
+      }
+    )
+    watch(
+      () => ({
+        post: postView.value,
+        w: glstate.view.w,
+        h: glstate.view.h,
+      }),
+      ({ post, w, h }) => {
+        post?.resize({
+          width: w,
+          height: h,
+        })
+      }
+    )
+    watch(
+      () => ({
+        post: post.value,
+        postView: postView.value,
+        balance: cameraStore.balance,
+        desaturate: cameraStore.desaturate,
+      }),
+      ({ post, postView, balance, desaturate }) => {
+        const setPass = (post?: Post) => {
+          if (!post) return
+          const [passBalance, passDesaturate] = post.passes
+          passBalance.uniforms.uBalance.value = balance
+          passDesaturate.enabled = desaturate
+        }
+        setPass(post)
+        setPass(postView)
+      }
+    )
+
     /* 动画 */
     useRaf(() => {
       const _gl = gl.value
@@ -107,8 +165,9 @@ export default defineComponent({
       const _scene = scene.value
       const _sceneView = sceneView.value
       const _camera = camera.value
+      const _post = post.value
 
-      if (!_gl || !_renderer || !_camera) return
+      if (!_gl || !_renderer || !_camera || !_post) return
 
       _camera.rotation.copy(glstate.camera.rotation)
 
@@ -119,7 +178,7 @@ export default defineComponent({
       })
 
       _gl.enable(_gl.SCISSOR_TEST)
-      _renderer.render({
+      _post.render({
         camera: camera.value,
         scene: cameraStore.constellation ? _sceneView : _scene,
       })
@@ -128,13 +187,13 @@ export default defineComponent({
     /* 设置 takePhoto */
     album.setTakePhoto(() => {
       const _gl = gl.value
-      const _renderer = renderer.value
       const _scene = scene.value
       const _sceneView = sceneView.value
       const _camera = camera.value
       const _cameraView = cameraView.value
+      const _postView = postView.value
 
-      if (!_gl || !_renderer || !_camera || !_cameraView) return
+      if (!_gl || !_camera || !_cameraView || !_postView) return
 
       _cameraView.rotation.copy(_camera.rotation)
 
@@ -152,7 +211,7 @@ export default defineComponent({
 
       _gl.disable(_gl.SCISSOR_TEST)
 
-      _renderer.render({
+      _postView.render({
         camera: _cameraView,
         scene: cameraStore.constellation ? _sceneView : _scene,
         target,

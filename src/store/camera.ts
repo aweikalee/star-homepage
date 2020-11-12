@@ -1,3 +1,4 @@
+import { Vec3 } from 'ogl-typescript'
 import { reactive, readonly } from 'vue'
 
 const DELAY = [0, 3000, 10000]
@@ -8,6 +9,12 @@ const state = reactive({
 
   /* 拍摄延时 */
   delay: DELAY[1],
+
+  /* 色彩平衡 */
+  balance: new Vec3(1, 1, 1),
+
+  /* 去色 */
+  desaturate: false,
 })
 
 export const camera = readonly(state)
