@@ -11,6 +11,11 @@ import {
 
 import styles from './styles.module.scss'
 
+let id = 0
+function createOverlayId() {
+  return id++
+}
+
 const overlayStack = reactive<number[]>([])
 watchOverlayStack()
 function watchOverlayStack() {
@@ -57,11 +62,11 @@ export default defineComponent({
   setup(props, { slots }) {
     const el = ref<HTMLElement>()
 
-    const id = (overlayStack[overlayStack.length - 1] ?? 0) + 1
+    const id = createOverlayId()
     const mount = () => overlayStack.push(id)
     const unmount = () => {
       const index = overlayStack.indexOf(id)
-      if (!~index) overlayStack.splice(index, 1)
+      if (~index) overlayStack.splice(index, 1)
     }
 
     onUnmounted(unmount)
