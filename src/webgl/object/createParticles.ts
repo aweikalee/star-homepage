@@ -1,10 +1,5 @@
-import {
-  Program,
-  Geometry,
-  Mesh,
-  OGLRenderingContext,
-  Texture,
-} from 'ogl-typescript'
+import { Program, Geometry, OGLRenderingContext, Texture } from 'ogl-typescript'
+import { Particle } from './Particle'
 import vertex from './particles.vert'
 import fragment from './particles.frag'
 
@@ -15,24 +10,13 @@ export interface IParticlesAttributes {
   randoms: ArrayLike<number>
   sizes: ArrayLike<number>
   texture: Texture
-  uHeight: {
-    value: number
-  }
 }
 
 export function createParticles(
   gl: OGLRenderingContext,
   attributes: IParticlesAttributes
 ) {
-  const {
-    colors,
-    opacities,
-    positions,
-    randoms,
-    sizes,
-    texture,
-    uHeight,
-  } = attributes
+  const { colors, opacities, positions, randoms, sizes, texture } = attributes
 
   const geometry = new Geometry(gl, {
     color: { size: 3, data: colors },
@@ -49,13 +33,12 @@ export function createParticles(
       uTexture: {
         value: texture,
       },
-      uHeight,
     },
     transparent: true,
     depthTest: false,
   })
 
-  const mesh = new Mesh(gl, {
+  const mesh = new Particle(gl, {
     mode: gl.POINTS,
     geometry,
     program,

@@ -6,6 +6,7 @@ attribute float size;
 
 uniform mat4 modelViewMatrix;
 uniform mat4 projectionMatrix;
+uniform vec2 viewport;
 
 uniform float uHeight;
 
@@ -16,7 +17,7 @@ void main() {
   vColor = vec4(color, opacity);
   vRandom = random;
 
-  float scale = uHeight * projectionMatrix[1][1] / 900.0;
+  float scale = viewport.y * projectionMatrix[1][1] / 900.0;
 
   gl_Position = projectionMatrix * modelViewMatrix  * vec4(position, 1.0);
   gl_PointSize = size * scale / length(gl_Position);
