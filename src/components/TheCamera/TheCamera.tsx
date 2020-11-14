@@ -86,7 +86,10 @@ export default defineComponent({
                         : undefined,
                     }}
                     {...preventOrbit}
-                    onClick={(e) => setAlbumVisible(true)}
+                    onClick={(e) => {
+                      preventOrbit.onClick(e)
+                      setAlbumVisible(true)
+                    }}
                     ref={elButton}
                   ></div>
                 )

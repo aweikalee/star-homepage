@@ -1,0 +1,41 @@
+@import '../../style/index.scss';
+
+.balance {
+  width: rem(400);
+  max-width: calc(100% - #{rem(48)});
+  border-radius: rem(8);
+  margin: 15vh auto;
+  padding: rem(12) rem(24);
+
+  background-color: #fff;
+  overflow: hidden;
+  box-sizing: border-box;
+
+  .row {
+    display: flex;
+    flex-direction: row;
+    padding: rem(8) 0;
+    align-items: center;
+
+    .label {
+      flex-shrink: 0;
+      font-size: rem(18);
+      width: 2.5em;
+    }
+    .content {
+      flex-grow: 1;
+    }
+  }
+}
+
+.slide-in--active {
+  transition: transform 0.3s ease;
+}
+
+.slide-in--from {
+  transform: translate(0, -20%);
+}
+
+.slide-in--to {
+  transform: translate(0, 0);
+}

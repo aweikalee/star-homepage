@@ -6,8 +6,9 @@ const DELAY = [0, 3000, 10000]
 const state = reactive({
   /* 组件可见状态 */
   visible: {
-    constellation: false, // 星座
+    constellation: true, // 星座
     timer: false, // 定时器
+    balance: false, // 色彩平衡
   },
 
   /* 拍摄延时 */
@@ -40,4 +41,12 @@ export function setCameraDelay(value: number) {
 export function toggleCameraDelay() {
   const index = DELAY.indexOf(state.delay) + 1
   setCameraDelay(DELAY[index % DELAY.length])
+}
+
+export function setCameraBalance(value: Vec3) {
+  state.balance = value
+}
+
+export function setCameraDesaturate(value: boolean) {
+  state.desaturate = value
 }
