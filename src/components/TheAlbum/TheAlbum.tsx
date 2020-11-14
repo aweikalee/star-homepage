@@ -1,13 +1,6 @@
-import {
-  defineComponent,
-  nextTick,
-  reactive,
-  ref,
-  Transition,
-  watch,
-} from 'vue'
+import { defineComponent, nextTick, ref, Transition, watch } from 'vue'
 import { album, setAlbumVisible } from '../../store'
-import Overlay from '../Overlay'
+import Overlay, { useVisibleState } from '../Overlay'
 
 import styles from './styles.module.scss'
 
@@ -15,25 +8,7 @@ export default defineComponent({
   name: 'TheAlbum',
   props: {},
   setup() {
-    /* 控制两个 Transition 先后顺序 */
-    const visible = reactive({
-      overlay: album.visible,
-      content: album.visible,
-    })
-    watch(
-      () => album.visible,
-      (value) => {
-        if (value) {
-          /* enter */
-          visible.overlay = value
-          nextTick(() => (visible.content = value))
-        } else {
-          /* leave */
-          visible.content = value
-          nextTick(() => (visible.overlay = value))
-        }
-      }
-    )
+    const visible = useVisibleState(() => album.visible)
 
     /* 更新 Transform Origin */
     const el = ref<HTMLElement>()
