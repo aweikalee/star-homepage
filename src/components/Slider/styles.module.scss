@@ -1,0 +1,62 @@
+@import '../../style/index.scss';
+
+$height: rem(12);
+$padding: rem(6);
+$color: color(primary);
+
+.slider {
+  position: relative;
+  height: $height + $padding * 2;
+  padding: $padding 0;
+  margin: 0 $padding * 2;
+  box-sizing: border-box;
+  cursor: pointer;
+  user-select: none;
+
+  &:hover {
+    .rail {
+      background-color: #ddd;
+    }
+
+    .track {
+      background-color: rgba($color, 1);
+    }
+
+    .handle {
+      border-color: rgba($color, 1);
+    }
+  }
+}
+
+.rail, .track {
+  position: absolute;
+  left: 0;
+  height: $height;
+  border-radius: $height / 2;
+}
+
+.rail {
+  background-color: #eee;
+  width: 100%;
+}
+
+.track {
+  background-color: rgba($color, 0.7);
+}
+
+.handle {
+  position: absolute;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  width: $height + $padding * 2;
+  height: $height + $padding * 2;
+  background-color: #fff;
+  box-sizing: border-box;
+  border: rem(2) rgba($color, 0.7) solid;
+  border-radius: 50%;
+  transition: box-shadow 0.3s;
+
+  &:hover {
+    box-shadow: 0 0 0 rem(6) rgba($color, 0.2);
+  }
+}

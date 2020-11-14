@@ -1,0 +1,7 @@
+$color-map: (
+  primary: #70caac,
+);
+
+@function color($name) {
+  @return map-get($color-map, $name);
+}

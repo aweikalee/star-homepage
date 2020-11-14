@@ -1,0 +1,52 @@
+@import '../../style/index.scss';
+
+$height: rem(24);
+$width: rem(48);
+$color: color(primary);
+
+.switch {
+  display: inline-block;
+  width: $width;
+  height: $height;
+  background-color: #ccc;
+  position: relative;
+  border: 2px #ccc solid;
+  border-radius: $height;
+  cursor: pointer;
+  transition: all 0.2s;
+
+  &::before {
+    content: '';
+    display: block;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: $height;
+    height: $height;
+    background-color: #fff;
+    border-radius: $height;
+    transition: all 0.2s;
+  }
+
+  &:hover {
+    &::before {
+      box-shadow: 0 0 0 rem(6) rgba($color, 0.2);
+    }
+  }
+
+  &:active {
+    &::before {
+      width: $height * 1.5;
+    }
+  }
+
+  &[data-active="true"] {
+    background-color: $color;
+    border-color: $color;
+
+    &:before {
+      left: initial;
+      right: 0;
+    }
+  }
+}
