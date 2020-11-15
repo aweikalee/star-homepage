@@ -1,5 +1,5 @@
 import { defineComponent } from 'vue'
-import { camera, toggleCameraVisible, toggleCameraDelay } from '../../store'
+import { camera } from '../../store'
 import { preventOrbit } from '../../webgl/utils'
 
 import styles from './styles.module.scss'
@@ -15,7 +15,7 @@ export default defineComponent({
           {...preventOrbit}
           onClick={(e) => {
             preventOrbit.onClick(e)
-            toggleCameraVisible('constellation')
+            camera.toggleVisible('constellation')
           }}
         >
           星座
@@ -27,7 +27,7 @@ export default defineComponent({
           {...preventOrbit}
           onClick={(e) => {
             preventOrbit.onClick(e)
-            toggleCameraDelay()
+            camera.toggleDelay()
           }}
         >
           延时{camera.delay ? camera.delay / 1000 : ''}
@@ -39,7 +39,7 @@ export default defineComponent({
           {...preventOrbit}
           onClick={(e) => {
             preventOrbit.onClick(e)
-            toggleCameraVisible('balance')
+            camera.toggleVisible('balance')
           }}
         >
           色彩平衡

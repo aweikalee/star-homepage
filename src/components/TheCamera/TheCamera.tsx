@@ -8,16 +8,7 @@ import {
   Transition,
   watch,
 } from 'vue'
-import {
-  album,
-  camera,
-  pushPhoto,
-  setAlbumButtonElement,
-  setAlbumVisible,
-  setCameraVisible,
-  toggleCameraFrontCamera,
-  toggleCameraVisible,
-} from '../../store'
+import { album, camera } from '../../store'
 import { preventOrbit } from '../../webgl/utils'
 import ToolBar from './ToolBar'
 import Timer from './Timer'
@@ -33,7 +24,7 @@ export default defineComponent({
     })
 
     const thumbnail = computed<string | undefined>(() => {
-      return album.data[album.data.length - 1]
+      return album.photos[album.photos.length - 1]
     })
     watch(thumbnail, () => {
       state.albumButtonVisible = false
@@ -47,19 +38,19 @@ export default defineComponent({
 
       canvas.toBlob((blob) => {
         const url = URL.createObjectURL(blob)
-        pushPhoto(url)
+        album.pushPhoto(url)
         state.shutterMask = false
       })
     }
     const onTimerEnd = () => {
-      setCameraVisible('timer', false)
+      camera.setVisible('timer', false)
       runTakePhoto()
     }
 
     /* 提交elButton 用于计算 TheAblum 显隐动画 Origin */
     const elButton = ref<HTMLElement>()
-    watch(elButton, (el) => setAlbumButtonElement(el ?? null))
-    onUnmounted(() => setAlbumButtonElement(null))
+    watch(elButton, (el) => album.setButtonElement(el ?? null))
+    onUnmounted(() => album.setButtonElement(null))
 
     return () => (
       <div class={styles.camera}>
@@ -89,7 +80,7 @@ export default defineComponent({
                     {...preventOrbit}
                     onClick={(e) => {
                       preventOrbit.onClick(e)
-                      setAlbumVisible(true)
+                      camera.setVisible('album', true)
                     }}
                     ref={elButton}
                   ></div>
@@ -105,7 +96,7 @@ export default defineComponent({
               {...preventOrbit}
               onClick={(e) => {
                 preventOrbit.onClick(e)
-                toggleCameraVisible('timer')
+                camera.toggleVisible('timer')
               }}
             ></div>
           </div>
@@ -116,7 +107,7 @@ export default defineComponent({
               {...preventOrbit}
               onClick={(e) => {
                 preventOrbit.onClick(e)
-                toggleCameraFrontCamera()
+                camera.toggleFrontCamera()
               }}
             >
               📷

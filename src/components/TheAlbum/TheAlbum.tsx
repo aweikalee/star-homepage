@@ -1,5 +1,5 @@
 import { defineComponent, nextTick, ref, Transition, watch } from 'vue'
-import { album, setAlbumVisible } from '../../store'
+import { album, camera } from '../../store'
 import Overlay, { useVisibleState } from '../Overlay'
 
 import styles from './styles.module.scss'
@@ -8,7 +8,7 @@ export default defineComponent({
   name: 'TheAlbum',
   props: {},
   setup() {
-    const visible = useVisibleState(() => album.visible)
+    const visible = useVisibleState(() => camera.visible.album)
 
     /* 更新 Transform Origin */
     const el = ref<HTMLElement>()
@@ -23,7 +23,7 @@ export default defineComponent({
       setTransformOrigin(content, origin)
     }
     watch(
-      () => album.visible,
+      () => camera.visible.album,
       (value) => {
         if (value) {
           /* enter */
@@ -38,7 +38,7 @@ export default defineComponent({
     return () => (
       <Overlay
         visible={visible.overlay}
-        onMaskClick={() => setAlbumVisible(false)}
+        onMaskClick={() => camera.setVisible('album', false)}
       >
         {() => (
           <Transition
@@ -56,14 +56,14 @@ export default defineComponent({
                     相簿
                     <div
                       class={styles.close}
-                      onClick={() => setAlbumVisible(false)}
+                      onClick={() => camera.setVisible('album', false)}
                     >
                       X
                     </div>
                   </div>
 
                   <div class={styles.content}>
-                    {album.data.map((url) => (
+                    {album.photos.map((url) => (
                       <div class={styles.item} key={url}>
                         <a
                           href={url}
@@ -75,7 +75,7 @@ export default defineComponent({
                       </div>
                     ))}
 
-                    {album.data.length === 0 ? (
+                    {album.photos.length === 0 ? (
                       <div class={styles.none}>这里空空如也</div>
                     ) : null}
                   </div>

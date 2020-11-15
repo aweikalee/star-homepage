@@ -1,10 +1,5 @@
 import { defineComponent, Transition } from 'vue'
-import {
-  camera,
-  setCameraBalance,
-  setCameraDesaturate,
-  setCameraVisible,
-} from '../../store'
+import { camera } from '../../store'
 import Overlay, { useVisibleState } from '../Overlay'
 import Slider from '../Slider'
 import Switch from '../Switch'
@@ -23,12 +18,12 @@ export default defineComponent({
     const setBalance = (value: number, key: number) => {
       const clone = camera.balance.clone()
       clone[key] = value
-      setCameraBalance(clone)
+      camera.setBalance(clone)
     }
     return () => (
       <Overlay
         visible={visible.overlay}
-        onMaskClick={() => setCameraVisible('balance', false)}
+        onMaskClick={() => camera.setVisible('balance', false)}
       >
         {() => (
           <Transition
@@ -62,7 +57,7 @@ export default defineComponent({
                     <div class={styles.content}>
                       <Switch
                         value={camera.desaturate}
-                        onChange={setCameraDesaturate}
+                        onChange={camera.setDesaturate}
                         style={{
                           display: 'block',
                           marginLeft: '0.24rem',

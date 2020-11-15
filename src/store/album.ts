@@ -19,7 +19,10 @@ const view = computed(() => {
 const state = reactive({
   /* photo */
   view,
-  data: [] as string[],
+  photos: [] as string[],
+  pushPhoto(value: string) {
+    state.photos.push(value)
+  },
   takePhoto: (() => {}) as ITakePhoto,
   setTakePhoto(createImageData: () => ImageData | void) {
     state.takePhoto = () => {
@@ -30,20 +33,10 @@ const state = reactive({
   },
 
   /* TheAlbum */
-  visible: false,
   buttonElement: null as HTMLElement | null,
+  setButtonElement(el: HTMLElement | null) {
+    state.buttonElement = el
+  },
 })
 
 export const album = readonly(state)
-
-export function pushPhoto(value: string) {
-  state.data.push(value)
-}
-
-export function setAlbumVisible(value: boolean) {
-  state.visible = value
-}
-
-export function setAlbumButtonElement(el: HTMLElement | null) {
-  state.buttonElement = el
-}
