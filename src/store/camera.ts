@@ -19,6 +19,9 @@ const state = reactive({
 
   /* 去色 */
   desaturate: false,
+
+  /* 前置摄像头 */
+  frontCamera: false,
 })
 
 export const camera = readonly(state)
@@ -49,4 +52,12 @@ export function setCameraBalance(value: Vec3) {
 
 export function setCameraDesaturate(value: boolean) {
   state.desaturate = value
+}
+
+export function setCameraFrontCamera(value: boolean) {
+  state.frontCamera = value
+}
+
+export function toggleCameraFrontCamera() {
+  setCameraFrontCamera(!state.frontCamera)
 }

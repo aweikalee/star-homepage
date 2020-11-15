@@ -1,5 +1,6 @@
+import { camera } from './camera'
 import { Transform } from 'ogl-typescript'
-import { reactive, readonly, computed } from 'vue'
+import { reactive, readonly, computed, watch } from 'vue'
 import { variable } from '../config'
 import { equivalentFov } from '../utils'
 import { viewport } from './viewport'
@@ -79,5 +80,9 @@ function updateControls() {
   requestAnimationFrame(updateControls)
   controls.update()
   state.camera.lookAt(transform.position)
+  if (camera.frontCamera) {
+    state.camera.rotation.y += Math.PI
+    state.camera.rotation.x *= -1
+  }
 }
 updateControls()

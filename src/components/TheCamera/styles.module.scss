@@ -137,6 +137,11 @@ $base-size: rem(1);
       font-size: size(25);
       color: #fff;
       margin: 25%;
+      cursor: pointer;
+
+      &:active {
+        opacity: 0.7;
+      }
     }
   }
 }

@@ -169,20 +169,29 @@ export default defineComponent({
       _camera.rotation.copy(glstate.camera.rotation)
 
       _gl.disable(_gl.SCISSOR_TEST)
+      if (cameraStore.frontCamera) {
+        _camera.rotation.y += Math.PI
+        _camera.rotation.x *= -1
+      }
       _renderer.render({
         camera: camera.value,
         scene: scene.value,
       })
+      if (cameraStore.frontCamera) {
+        _camera.rotation.y -= Math.PI
+        _camera.rotation.x *= -1
+      }
 
       _gl.enable(_gl.SCISSOR_TEST)
+
       _post.render({
-        camera: camera.value,
+        camera: _camera,
         scene: _scene,
       })
 
       if (cameraStore.visible.constellation) {
         _renderer.render({
-          camera: camera.value,
+          camera: _camera,
           scene: _sceneView,
           clear: false,
         })

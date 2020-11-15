@@ -15,6 +15,7 @@ import {
   setAlbumButtonElement,
   setAlbumVisible,
   setCameraVisible,
+  toggleCameraFrontCamera,
   toggleCameraVisible,
 } from '../../store'
 import { preventOrbit } from '../../webgl/utils'
@@ -110,7 +111,16 @@ export default defineComponent({
           </div>
 
           <div class={styles.switch}>
-            <div class={styles.switch__button}>📷</div>
+            <div
+              class={styles.switch__button}
+              {...preventOrbit}
+              onClick={(e) => {
+                preventOrbit.onClick(e)
+                toggleCameraFrontCamera()
+              }}
+            >
+              📷
+            </div>
           </div>
         </div>
 
