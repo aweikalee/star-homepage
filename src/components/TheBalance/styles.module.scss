@@ -1,20 +1,14 @@
 @import '../../style/index.scss';
+@import '../../style/screen.module.scss';
 
 .balance {
-  width: rem(400);
-  max-width: calc(100% - #{rem(48)});
+  min-height: initial;
   border-radius: rem(8);
-  margin: 15vh auto;
-  padding: rem(12) rem(24);
-
-  background-color: #fff;
-  overflow: hidden;
-  box-sizing: border-box;
 
   .row {
     display: flex;
     flex-direction: row;
-    padding: rem(8) 0;
+    padding: rem(8) rem(24);
     align-items: center;
 
     .label {
@@ -28,14 +22,9 @@
   }
 }
 
-.slide-in--active {
-  transition: transform 0.3s ease;
-}
-
-.slide-in--from {
-  transform: translate(0, -20%);
-}
-
-.slide-in--to {
-  transform: translate(0, 0);
+/* desktop */
+@media (min-width: $screen-boundary-width) and (min-height: $screen-boundary-height) {
+  .balance {
+    width: rem(400);
+  }
 }
