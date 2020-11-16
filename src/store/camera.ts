@@ -7,6 +7,7 @@ const visible = {
   album: false, // 相册
   balance: false, // 色彩平衡
   constellation: true, // 星座
+  list: false, // 列表
   timer: false, // 定时器
 }
 

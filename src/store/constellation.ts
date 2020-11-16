@@ -79,21 +79,11 @@ function initPoints(points: number[]) {
 }
 
 function initLines(lines: number[], points: ArrayLike<number>) {
-  let _lines = lines
-  if (lines.length === 0) {
-    const len = Math.floor(points.length / 3)
-    _lines = []
-    for (let i = 0; i < len; i += 1) {
-      _lines.push(i === 0 ? len - 1 : i - 1)
-      _lines.push(i)
-    }
-  }
-
-  const len = Math.floor(_lines.length / 2) * 2
+  const len = Math.floor(lines.length / 2) * 2
   const res = new Float32Array(len * 3)
 
   for (let i = 0; i < len; i += 1) {
-    const index = _lines[i] * 3
+    const index = lines[i] * 3
     const position = [points[index], points[index + 1], points[index + 2]]
     res.set(position, i * 3)
   }

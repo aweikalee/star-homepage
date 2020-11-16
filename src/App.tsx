@@ -5,6 +5,7 @@ import TheStarrySky from './components/TheStarrySky'
 import TheFocus from './components/TheFocus'
 import TheAlbum from './components/TheAlbum'
 import TheBalance from './components/TheBalance'
+import TheList from './components/TheList'
 
 export default defineComponent(() => {
   /* 移除页面加载动画 */
@@ -16,6 +17,7 @@ export default defineComponent(() => {
       <ThePhone>{() => <TheCamera>{() => <TheFocus />}</TheCamera>}</ThePhone>
       <TheAlbum />
       <TheBalance />
+      <TheList />
     </>
   )
 })

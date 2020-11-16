@@ -1,6 +1,7 @@
 export interface ISite {
   title: string
   url: string
+  description: string
   points: number[]
   lines: number[]
 }
@@ -9,6 +10,8 @@ export const sites: ISite[] = [
   {
     title: '毛呆账簿',
     url: 'https://ledger.maodai.site',
+    description:
+      '自用记账工具，目前只做了基础功能，扩展的功能以后需要用的时候再慢慢加。',
     // prettier-ignore
     points: [
         -46,  75,
@@ -43,6 +46,7 @@ export const sites: ISite[] = [
   {
     title: 'Github',
     url: 'https://github.com/aweikalee',
+    description: 'aweikalee',
     // prettier-ignore
     points: [
         -52,  59,
@@ -72,4 +76,15 @@ export const sites: ISite[] = [
     lines: [],
   },
 ]
-sites.push(...sites, ...sites)
+
+/* 为空 liens 填充数据 */
+sites.map((site) => {
+  const { lines, points } = site
+  if (lines.length === 0) {
+    const len = Math.floor(points.length / 2)
+    for (let i = 0; i < len; i += 1) {
+      lines.push(i === 0 ? len - 1 : i - 1)
+      lines.push(i)
+    }
+  }
+})

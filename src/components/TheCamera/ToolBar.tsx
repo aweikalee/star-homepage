@@ -35,7 +35,6 @@ export default defineComponent({
 
         <div
           class={styles.toolbar__button}
-          data-active={!!camera.delay}
           {...preventOrbit}
           onClick={(e) => {
             preventOrbit.onClick(e)
@@ -43,6 +42,17 @@ export default defineComponent({
           }}
         >
           色彩平衡
+        </div>
+
+        <div
+          class={styles.toolbar__button}
+          {...preventOrbit}
+          onClick={(e) => {
+            preventOrbit.onClick(e)
+            camera.toggleVisible('list')
+          }}
+        >
+          图鉴
         </div>
       </div>
     )
