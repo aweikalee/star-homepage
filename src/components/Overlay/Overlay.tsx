@@ -49,14 +49,12 @@ export default defineComponent({
       type: Boolean,
       default: false,
     },
+    maskColor: {
+      type: String,
+      default: 'white',
+    },
     onMaskClick: {
       type: Function as PropType<(e: Event) => void>,
-    },
-    mousePosition: {
-      type: Object as PropType<{
-        x: number
-        y: number
-      }>,
     },
   },
   setup(props, { slots }) {
@@ -108,7 +106,12 @@ export default defineComponent({
 
             return (
               <div class={styles.overlay}>
-                {isLatest ? <div class={styles.mask}></div> : null}
+                {isLatest ? (
+                  <div
+                    class={styles.mask}
+                    style={{ backgroundColor: props.maskColor }}
+                  ></div>
+                ) : null}
 
                 <div
                   class={styles.container}
