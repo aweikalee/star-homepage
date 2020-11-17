@@ -72,6 +72,7 @@ export default defineComponent({
               {() =>
                 state.albumButtonVisible && (
                   <div
+                    title="相册"
                     class={styles.album__button}
                     style={{
                       backgroundImage: thumbnail.value
@@ -92,6 +93,7 @@ export default defineComponent({
 
           <div class={styles.shutter}>
             <div
+              title="快门"
               class={styles.shutter__button}
               data-active={camera.visible.timer}
               {...preventOrbit}
@@ -104,6 +106,7 @@ export default defineComponent({
 
           <div class={styles.switch}>
             <div
+              title="切换摄像头"
               class={styles.switch__button}
               {...preventOrbit}
               onClick={(e) => {

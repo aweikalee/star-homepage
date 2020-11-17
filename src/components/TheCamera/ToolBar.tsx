@@ -12,6 +12,9 @@ const Item = defineComponent({
       type: Boolean,
       default: false,
     },
+    title: {
+      type: String,
+    },
     onClick: {
       type: Function as PropType<(e: Event) => void>,
     },
@@ -20,6 +23,7 @@ const Item = defineComponent({
     return () => (
       <div class={styles.item}>
         <div
+          title={props.title}
           class={styles.button}
           data-active={props.active}
           {...preventOrbit}
@@ -40,8 +44,8 @@ export default defineComponent({
   setup() {
     return () => (
       <div class={styles.toolbar}>
-        {/* 星座 */}
         <Item
+          title="显示星座"
           active={camera.visible.constellation}
           onClick={() => {
             camera.toggleVisible('constellation')
@@ -50,8 +54,8 @@ export default defineComponent({
           {() => <Icon value="constellation" />}
         </Item>
 
-        {/* 延时 */}
         <Item
+          title="延时"
           active={!!camera.delay}
           onClick={() => {
             camera.toggleDelay()
@@ -67,8 +71,8 @@ export default defineComponent({
           )}
         </Item>
 
-        {/* 色彩平衡 */}
         <Item
+          title="色彩平衡"
           onClick={() => {
             camera.toggleVisible('balance')
           }}
@@ -76,8 +80,8 @@ export default defineComponent({
           {() => <Icon value="balance" />}
         </Item>
 
-        {/* 图鉴 */}
         <Item
+          title="星座图鉴"
           onClick={() => {
             camera.toggleVisible('list')
           }}

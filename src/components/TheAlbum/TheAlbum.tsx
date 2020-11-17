@@ -10,7 +10,7 @@ export default defineComponent({
   setup() {
     return () => (
       <Popup
-        title="相簿"
+        title="相册"
         visible={camera.visible.album}
         startTarget={album.buttonElement as HTMLElement}
         transition="scale"

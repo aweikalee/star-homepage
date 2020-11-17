@@ -111,7 +111,11 @@ export default defineComponent({
                 <div class={[styles.popup, props.popupClass]} ref={el}>
                   <div class={styles.header}>
                     {props.title}
-                    <div class={styles.close} onClick={props.onCloseClick}>
+                    <div
+                      title="关闭"
+                      class={styles.close}
+                      onClick={props.onCloseClick}
+                    >
                       <Icon value="close" />
                     </div>
                   </div>
