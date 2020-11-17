@@ -59,7 +59,7 @@ export function Orbit(
   this.offset = offset
 
   this.update = () => {
-    if (autoRotate) {
+    if (autoRotate && state === STATE.NONE) {
       handleAutoRotate()
     }
 
