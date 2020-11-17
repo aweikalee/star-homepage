@@ -6,6 +6,7 @@ import TheFocus, { TheFoucsInfo } from './components/TheFocus'
 import TheAlbum from './components/TheAlbum'
 import TheBalance from './components/TheBalance'
 import TheList from './components/TheList'
+import TheNotification from './components/TheNotification'
 
 export default defineComponent(() => {
   /* 移除页面加载动画 */
@@ -17,7 +18,14 @@ export default defineComponent(() => {
       <ThePhone>
         {() => (
           <>
-            <TheCamera>{() => <TheFoucsInfo />}</TheCamera>
+            <TheCamera>
+              {() => (
+                <>
+                  <TheNotification />
+                  <TheFoucsInfo />
+                </>
+              )}
+            </TheCamera>
             <TheFocus />
           </>
         )}

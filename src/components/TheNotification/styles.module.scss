@@ -1,0 +1,34 @@
+@import '../../style/index.scss';
+
+.notification {
+  position: absolute;
+  top: 0;
+  text-align: center;
+  width: 100%;
+  box-sizing: border-box;
+  padding: rem(12);
+  font-size: rem(16);
+}
+
+.message {
+  background-color: #fff;
+  padding: 0 rem(4);
+  border-radius: rem(4);
+  color: #000;
+
+  &[data-active='true'] {
+    background-color: #cab870;
+  }
+}
+
+.enter--active {
+  transition: opacity 0.2s;
+}
+
+.enter--from {
+  opacity: 0;
+}
+
+.enter--to {
+  opacity: 1;
+}
