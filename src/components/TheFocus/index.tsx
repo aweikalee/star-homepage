@@ -1,2 +1,3 @@
-export * from './TheFoucs'
-export { default } from './TheFoucs'
+export * from './TheFocus'
+export { default } from './TheFocus'
+export { default as TheFoucsInfo } from './TheFocusInfo'

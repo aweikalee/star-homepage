@@ -44,32 +44,19 @@ export default defineComponent({
       if (!focus) return null
 
       return (
-        <>
-          <a
-            class={styles.focus}
-            href={focus.url}
-            title={focus.title}
-            style={style.value}
-            target="blank"
-            {...preventOrbit}
-          >
-            <span></span>
-            <span></span>
-            <span></span>
-            <span></span>
-          </a>
-
-          <div class={styles.info}>
-            <a
-              href={focus.url}
-              title={focus.title}
-              target="blank"
-              {...preventOrbit}
-            >
-              {focus.title}
-            </a>
-          </div>
-        </>
+        <a
+          class={styles.focus}
+          href={focus.url}
+          title={focus.title}
+          style={style.value}
+          target="blank"
+          {...preventOrbit}
+        >
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+        </a>
       )
     }
   },

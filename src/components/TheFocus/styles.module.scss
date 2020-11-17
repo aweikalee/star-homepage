@@ -49,8 +49,10 @@ $border-radius: rem(18);
 }
 
 .info {
-  display: block;
+  position: absolute;
   text-align: center;
+  width: 100%;
+  box-sizing: border-box;
   padding: rem(24);
 
   & > a {
