@@ -10,6 +10,7 @@ import {
 } from 'vue'
 import { album, camera } from '../../store'
 import { preventOrbit } from '../../webgl/utils'
+import Icon from '../Icon'
 import ToolBar from './ToolBar'
 import Timer from './Timer'
 
@@ -110,7 +111,7 @@ export default defineComponent({
                 camera.toggleFrontCamera()
               }}
             >
-              📷
+              <Icon value="camera" />
             </div>
           </div>
         </div>

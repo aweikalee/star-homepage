@@ -9,6 +9,7 @@ import {
   TransitionProps,
 } from 'vue'
 import Overlay, { useVisibleState } from '../Overlay'
+import Icon from '../Icon'
 
 import styles from './styles.module.scss'
 
@@ -111,7 +112,7 @@ export default defineComponent({
                   <div class={styles.header}>
                     {props.title}
                     <div class={styles.close} onClick={props.onCloseClick}>
-                      ×
+                      <Icon value="close" />
                     </div>
                   </div>
 

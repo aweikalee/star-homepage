@@ -1,6 +1,7 @@
 import { defineComponent } from 'vue'
 import { camera } from '../../store'
 import { preventOrbit } from '../../webgl/utils'
+import Icon from '../Icon'
 
 import styles from './styles.module.scss'
 
@@ -18,7 +19,7 @@ export default defineComponent({
             camera.toggleVisible('constellation')
           }}
         >
-          星座
+          <Icon value="constellation" />
         </div>
 
         <div
@@ -30,7 +31,8 @@ export default defineComponent({
             camera.toggleDelay()
           }}
         >
-          延时{camera.delay ? camera.delay / 1000 : ''}
+          <Icon value="timer" />
+          {camera.delay ? <span style={{fontSize: '0.5em'}}>{camera.delay / 1000}秒</span> : null}
         </div>
 
         <div
@@ -41,7 +43,7 @@ export default defineComponent({
             camera.toggleVisible('balance')
           }}
         >
-          色彩平衡
+          <Icon value="balance" />
         </div>
 
         <div
@@ -52,7 +54,7 @@ export default defineComponent({
             camera.toggleVisible('list')
           }}
         >
-          图鉴
+          <Icon value="list" />
         </div>
       </div>
     )

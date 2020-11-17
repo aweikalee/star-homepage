@@ -1,0 +1,9 @@
+@import '../../style/index.scss';
+
+.icon {
+  vertical-align: middle;
+  > svg {
+    height: 1em;
+    vertical-align: middle;
+  }
+}
