@@ -8,7 +8,7 @@ export default defineComponent({
   setup(props, { slots }) {
     return () => (
       <div class={styles.phone}>
-        {slots.default?.()}
+        <div class={styles.view}>{slots.default?.()}</div>
 
         <TheFooter class={styles.footer} />
         <div class={styles['border-top']}></div>
