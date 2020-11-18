@@ -57,6 +57,7 @@ $border-radius: rem(18);
   padding: rem(24);
 
   & > a {
+    display: inline-block;
     position: relative;
     z-index: 9;
     background-color: #cab870;
