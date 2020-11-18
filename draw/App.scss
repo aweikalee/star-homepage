@@ -1,0 +1,31 @@
+.svg {
+  position: relative;
+  box-shadow: 0 0 10px #999;
+  margin: 12px 0;
+  background-position: center;
+  background-size: contain;
+  background-repeat: no-repeat;
+
+  > span {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    font-size: 10px;
+    color: #fff;
+    text-shadow: 0 0 4px #000;
+  }
+}
+
+.textarea {
+  margin-top: 24px;
+  textarea {
+    width: 180px;
+    height: 400px;
+  }
+}
+
+.list {
+  li {
+    cursor: pointer;
+  }
+}
