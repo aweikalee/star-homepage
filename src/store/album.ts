@@ -4,6 +4,11 @@ import { createCanvasFromImageData } from '../utils'
 import { glstate } from './glstate'
 
 export type ITakePhoto = () => HTMLCanvasElement | void
+export type IPhoto = {
+  src: string
+  w: number
+  h: number
+}
 
 const view = computed(() => {
   const view = glstate.view
@@ -19,8 +24,8 @@ const view = computed(() => {
 const state = reactive({
   /* photo */
   view,
-  photos: [] as string[],
-  pushPhoto(value: string) {
+  photos: [] as IPhoto[],
+  pushPhoto(value: IPhoto) {
     state.photos.push(value)
   },
   takePhoto: (() => {}) as ITakePhoto,

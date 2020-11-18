@@ -25,7 +25,7 @@ export default defineComponent({
     })
 
     const thumbnail = computed<string | undefined>(() => {
-      return album.photos[album.photos.length - 1]
+      return album.photos[album.photos.length - 1]?.src
     })
     watch(thumbnail, () => {
       state.albumButtonVisible = false
@@ -39,7 +39,11 @@ export default defineComponent({
 
       canvas.toBlob((blob) => {
         const url = URL.createObjectURL(blob)
-        album.pushPhoto(url)
+        album.pushPhoto({
+          src: url,
+          w: canvas.width,
+          h: canvas.height,
+        })
         state.shutterMask = false
       })
     }
