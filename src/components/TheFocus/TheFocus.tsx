@@ -10,7 +10,12 @@ const { near, far } = variable.constellation
 
 export default defineComponent({
   name: 'TheFoucs',
-  setup() {
+  props: {
+    onClick: {
+      type: Function,
+    },
+  },
+  setup(props) {
     const size = computed(() => {
       const base = 200 * variable.constellation.scale
       const { x } = glstate.toPx(base, 0, near)
@@ -39,24 +44,42 @@ export default defineComponent({
       }
     })
 
+    let isMoved = false
+    const onMousemove = () => {
+      isMoved = true
+    }
+    const onMousedown = () => {
+      isMoved = false
+      addEventListener('mousemove', onMousemove, {
+        once: true,
+      })
+    }
+    const onMouseup = () => {
+      removeEventListener('mousemove', onMousemove)
+    }
+
     return () => {
       const focus = constellation.focus
       if (!focus) return null
 
       return (
-        <a
+        <div
           class={styles.focus}
-          href={focus.url}
           title={focus.title}
           style={style.value}
-          target="blank"
           {...preventOrbit}
+          onClick={(e) => {
+            preventOrbit.onClick(e)
+            if (!isMoved) props.onClick?.()
+          }}
+          onMousedown={onMousedown}
+          onMouseup={onMouseup}
         >
           <span></span>
           <span></span>
           <span></span>
           <span></span>
-        </a>
+        </div>
       )
     }
   },

@@ -5,7 +5,7 @@ import Constellation from '../Constellation'
 import styles from './styles.module.scss'
 
 export default defineComponent({
-  name: 'TheListCard',
+  name: 'ConstellationInfoCard',
   props: {
     data: {
       type: Object as PropType<ISite>,
