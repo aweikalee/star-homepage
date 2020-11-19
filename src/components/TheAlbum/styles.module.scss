@@ -6,7 +6,7 @@ $header-height: rem(50);
 /* desktop */
 @media (min-width: $screen-boundary-width) and (min-height: $screen-boundary-height) {
   .popup {
-    min-height: 50vh;
+    min-height: 50vh !important;
   }
 }
 
