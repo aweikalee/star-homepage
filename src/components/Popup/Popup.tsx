@@ -43,6 +43,10 @@ export default defineComponent({
       type: String as PropType<'scale' | 'slide'>,
       default: 'slide',
     },
+    fullscreen: {
+      type: String as PropType<'none' | 'mobile' | 'desktop' | 'both'>,
+      default: 'none',
+    },
   },
   setup(props, { slots }) {
     const visible = useVisibleState(() => props.visible)
@@ -108,7 +112,11 @@ export default defineComponent({
           <Transition {...transitionClass.value}>
             {() =>
               visible.content ? (
-                <div class={[styles.popup, props.popupClass]} ref={el}>
+                <div
+                  class={[styles.popup, props.popupClass]}
+                  ref={el}
+                  data-fullscreen={props.fullscreen}
+                >
                   <div class={styles.header}>
                     {props.title}
                     <div

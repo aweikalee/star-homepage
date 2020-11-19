@@ -118,12 +118,18 @@ export default defineComponent({
                   style={{
                     overflow: isLatest ? undefined : 'hidden',
                   }}
-                  ref={el}
-                  onMousedown={onMousedown}
-                  onMousemove={onMousemove}
-                  onMouseup={onMouseup}
                 >
-                  {slots.default?.()}
+                  <div class={styles.table}>
+                    <div
+                      ref={el}
+                      class={styles['table-cell']}
+                      onMousedown={onMousedown}
+                      onMousemove={onMousemove}
+                      onMouseup={onMouseup}
+                    >
+                      {slots.default?.()}
+                    </div>
+                  </div>
                 </div>
               </div>
             )

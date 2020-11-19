@@ -4,20 +4,34 @@
 $header-height: rem(50);
 
 .popup {
-  width: 100%;
-  min-height: 100%;
+  width: calc(100% - #{rem(48)});
+  max-width: rem(900);
+  border-radius: rem(8);
   background-color: #fff;
   overflow: hidden;
   box-sizing: border-box;
   padding-top: $header-height;
   padding-bottom: rem(12);
-  margin-left: auto;
-  margin-right: auto;
+  margin: rem(24) auto;
   position: relative;
+
+  &[data-fullscreen='mobile'],
+  &[data-fullscreen='both'] {
+    border-radius: initial;
+    max-width: initial;
+    width: 100%;
+    min-height: 100vh;
+    margin-top: initial;
+    margin-bottom: initial;
+
+    .header {
+      position: fixed;
+    }
+  }
 }
 
 .header {
-  position: fixed;
+  position: absolute;
   top: 0;
   left: 0;
   right: 0;
@@ -60,16 +74,31 @@ $header-height: rem(50);
 /* desktop */
 @media (min-width: $screen-boundary-width) and (min-height: $screen-boundary-height) {
   .popup {
-    width: 80%;
-    max-width: rem(900);
-    min-height: 50%;
-    border-radius: rem(8);
-    margin-top: 15vh;
-    margin-bottom: 15vh;
-  }
+    &[data-fullscreen='mobile'] {
+      width: calc(100% - #{rem(48)});
+      max-width: rem(900);
+      border-radius: rem(8);
+      min-height: initial;
+      margin-top: rem(24);
+      margin-bottom: rem(24);
 
-  .header {
-    position: absolute;
+      .header {
+        position: absolute;
+      }
+    }
+
+    &[data-fullscreen='desktop'] {
+      border-radius: initial;
+      max-width: initial;
+      width: 100%;
+      min-height: 100vh;
+      margin-top: initial;
+      margin-bottom: initial;
+
+      .header {
+        position: fixed;
+      }
+    }
   }
 }
 

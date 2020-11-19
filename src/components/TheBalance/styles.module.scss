@@ -2,9 +2,6 @@
 @import '../../style/screen.module.scss';
 
 .balance {
-  min-height: initial;
-  border-radius: rem(8);
-
   .row {
     display: flex;
     flex-direction: row;
@@ -25,6 +22,6 @@
 /* desktop */
 @media (min-width: $screen-boundary-width) and (min-height: $screen-boundary-height) {
   .balance {
-    width: rem(400);
+    max-width: rem(400);
   }
 }

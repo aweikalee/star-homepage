@@ -64,7 +64,9 @@ export default defineComponent({
         title="相册"
         visible={camera.visible.album}
         startTarget={album.buttonElement as HTMLElement}
+        popupClass={styles.popup}
         transition="scale"
+        fullscreen="mobile"
         onMaskClick={() => camera.setVisible('album', false)}
         onCloseClick={() => camera.setVisible('album', false)}
       >

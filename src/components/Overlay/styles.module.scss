@@ -24,6 +24,17 @@
   -webkit-overflow-scrolling: touch;
 }
 
+.table {
+  display: table;
+  height: 100%;
+  width: 100%;
+}
+
+.table-cell {
+  vertical-align: middle;
+  display: table-cell;
+}
+
 .enter--active {
   transition: opacity 0.3s;
 }
