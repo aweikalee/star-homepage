@@ -58,7 +58,10 @@ export default defineComponent({
     },
   },
   setup(props, { slots }) {
-    const el = ref<HTMLElement>()
+    const el = {
+      container: ref<HTMLElement>(),
+      cell: ref<HTMLElement>(),
+    }
 
     const id = createOverlayId()
     const mount = () => overlayStack.push(id)
@@ -77,17 +80,47 @@ export default defineComponent({
     /* Mask Click */
     let maskClick = false
     const onMousedown = (e: Event) => {
-      if (e.target === el.value) maskClick = true
+      if (e.target === el.cell.value) maskClick = true
     }
     const onMousemove = (e: Event) => {
       if (!maskClick) return
-      if (e.target !== el.value) maskClick = false
+      if (e.target !== el.cell.value) maskClick = false
     }
     const onMouseup = (e: Event) => {
       if (!maskClick) return
       maskClick = false
-      if (e.target !== el.value) return
+      if (e.target !== el.cell.value) return
       props.onMaskClick?.(e)
+    }
+
+    /* 阻止滚动穿透 */
+    let startY = 0
+    const onTouchstart = (e: TouchEvent) => {
+      const touch = e.touches[0]
+      if (!touch) return
+
+      startY = touch.pageY
+    }
+    const onTouchmove = (e: TouchEvent) => {
+      if (!e.cancelable) return
+
+      const touch = e.touches[0]
+      const container = el.container.value
+      if (!touch || !container) return
+
+      const { clientHeight, scrollTop, scrollHeight } = container
+
+      if (startY < touch.pageY) {
+        /* 往上滚 */
+        if (scrollTop <= 0) {
+          e.preventDefault()
+        }
+      } else if (startY > touch.pageY) {
+        /* 往下滚 */
+        if (scrollTop >= scrollHeight - clientHeight) {
+          e.preventDefault()
+        }
+      }
     }
 
     return () => (
@@ -114,6 +147,7 @@ export default defineComponent({
                 ) : null}
 
                 <div
+                  ref={el.container}
                   class={styles.container}
                   style={{
                     overflow: isLatest ? undefined : 'hidden',
@@ -121,11 +155,13 @@ export default defineComponent({
                 >
                   <div class={styles.table}>
                     <div
-                      ref={el}
+                      ref={el.cell}
                       class={styles['table-cell']}
                       onMousedown={onMousedown}
                       onMousemove={onMousemove}
                       onMouseup={onMouseup}
+                      onTouchstart={onTouchstart}
+                      onTouchmove={onTouchmove}
                     >
                       {slots.default?.()}
                     </div>
