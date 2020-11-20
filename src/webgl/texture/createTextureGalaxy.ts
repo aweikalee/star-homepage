@@ -191,7 +191,7 @@ export async function createCanvasGalaxy() {
         y += scale * smokeSize * step
       })
     },
-    { opacity: 0.5 }
+    { opacity: 1 }
   )
 
   /* 星星 */
