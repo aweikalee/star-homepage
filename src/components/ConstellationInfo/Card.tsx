@@ -15,22 +15,38 @@ export default defineComponent({
   setup(props) {
     return () => (
       <div class={styles.card}>
-        <a href={props.data.url} class={styles.logo} target="blank">
-          <Constellation points={props.data.points} lines={props.data.lines} />
-        </a>
+        {props.data.url ? (
+          <a href={props.data.url} class={styles.logo} target="blank">
+            <Constellation
+              points={props.data.points}
+              lines={props.data.lines}
+            />
+          </a>
+        ) : (
+          <div class={styles.logo}>
+            <Constellation
+              points={props.data.points}
+              lines={props.data.lines}
+            />
+          </div>
+        )}
+
         <div class={styles.content}>
-          <div class={styles.title}>
-            <a href={props.data.url} target="blank">
-              {props.data.title}
-            </a>
-          </div>
+          <div class={styles.title}>{props.data.title}</div>
+
           <div class={styles.description}>
-            <a href={props.data.url} target="blank">
-              {props.data.description?.split('\n').map((v) => (
-                <div>{v}</div>
-              ))}
-            </a>
+            {props.data.description?.split('\n').map((v) => (
+              <div>{v}</div>
+            ))}
           </div>
+
+          {props.data.url ? (
+            <div class={styles.link}>
+              <a href={props.data.url} target="blank">
+                Link Start
+              </a>
+            </div>
+          ) : null}
         </div>
       </div>
     )

@@ -25,31 +25,38 @@
 
   .content {
     flex-shrink: 1;
-    flex-grow: 0;
+    flex-grow: 1;
   }
 
   .title {
     font-size: rem(18);
     font-weight: bold;
-    > a {
-      color: #333;
-      text-decoration: none;
-
-      &:hover {
-        text-decoration: underline;
-      }
-    }
+    color: #333;
   }
 
   .description {
     font-size: rem(14);
     margin-top: rem(12);
-    > a {
-      color: #666;
-      text-decoration: none;
+    color: #666;
+    line-height: 1.5;
+  }
 
-      &:hover {
-        text-decoration: underline;
+  .link {
+    font-size: rem(14);
+    margin-top: rem(18);
+    text-align: right;
+
+    > a {
+      display: inline-block;
+      background-color: #eee;
+      padding: rem(10) rem(12);
+      border-radius: rem(4);
+      color: #0091ff;
+      text-decoration: none;
+      user-select: none;
+
+      &:active {
+        opacity: 0.7;
       }
     }
   }
