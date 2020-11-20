@@ -138,7 +138,7 @@ export default defineComponent({
         class={styles.slider}
         onMousedown={onMouseDown}
         onTouchstart={onTouchStart}
-        onDrag={(e) => e.preventDefault()}
+        onDragstart={(e) => e.preventDefault()}
       >
         <div class={styles.rail}></div>
 
