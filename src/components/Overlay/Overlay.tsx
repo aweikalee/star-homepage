@@ -51,7 +51,7 @@ export default defineComponent({
     },
     maskColor: {
       type: String,
-      default: 'white',
+      default: 'rgba(0, 0, 0, 0.35)',
     },
     onMaskClick: {
       type: Function as PropType<(e: Event) => void>,
