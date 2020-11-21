@@ -9,6 +9,7 @@
 
 .card {
   display: flex;
+  align-items: flex-start;
   margin: 0 rem(24);
   padding: rem(24) 0;
   & + & {

@@ -34,11 +34,7 @@ export default defineComponent({
         <div class={styles.content}>
           <div class={styles.title}>{props.data.title}</div>
 
-          <div class={styles.description}>
-            {props.data.description?.split('\n').map((v) => (
-              <div>{v}</div>
-            ))}
-          </div>
+          <div class={styles.description}>{props.data.description}</div>
 
           {props.data.url ? (
             <div class={styles.link}>
