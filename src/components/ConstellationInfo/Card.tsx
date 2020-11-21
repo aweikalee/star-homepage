@@ -1,5 +1,5 @@
-import { defineComponent, PropType } from 'vue'
-import { ISite } from '../../config'
+import { computed, defineComponent, PropType, ref, toRaw } from 'vue'
+import { ISite, jojo } from '../../config'
 import Constellation from '../Constellation'
 
 import styles from './styles.module.scss'
@@ -13,6 +13,18 @@ export default defineComponent({
     },
   },
   setup(props) {
+    const points = ref(props.data.points)
+    const isAboutMe = computed(() => {
+      return props.data.title === '关于我'
+    })
+    const toggleJojo = () => {
+      const raw = toRaw(points.value)
+      const arr = jojo.filter((v) => v !== raw)
+      if (!arr.length) return
+      const newIndex = Math.floor(Math.random() * arr.length)
+      points.value = arr[newIndex]
+    }
+
     return () => (
       <div class={styles.card}>
         {props.data.url ? (
@@ -23,11 +35,12 @@ export default defineComponent({
             />
           </a>
         ) : (
-          <div class={styles.logo}>
-            <Constellation
-              points={props.data.points}
-              lines={props.data.lines}
-            />
+          <div
+            class={styles.logo}
+            style={isAboutMe.value ? { cursor: 'pointer' } : undefined}
+            onClick={isAboutMe.value ? toggleJojo : undefined}
+          >
+            <Constellation points={points.value} lines={props.data.lines} />
           </div>
         )}
 
