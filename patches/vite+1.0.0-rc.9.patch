@@ -1,7 +1,40 @@
 diff --git a/node_modules/vite/dist/node/build/buildPluginHtml.js b/node_modules/vite/dist/node/build/buildPluginHtml.js
-index 2f55e7c..b912381 100644
+index 2f55e7c..3087308 100644
 --- a/node_modules/vite/dist/node/build/buildPluginHtml.js
 +++ b/node_modules/vite/dist/node/build/buildPluginHtml.js
+@@ -33,8 +33,8 @@ exports.createBuildHtmlPlugin = async (root, indexPath, publicBasePath, assetsDi
+     };
+     const injectCSS = (html, filename) => {
+         const tag = `<link rel="stylesheet" href="${publicBasePath}${path_1.default.posix.join(assetsDir, filename)}">`;
+-        if (/<\/head>/.test(html)) {
+-            return html.replace(/<\/head>/, `${tag}\n</head>`);
++        if (/<\/body>/.test(html)) {
++            return html.replace(/<\/body>/, `${tag}\n</body>`);
+         }
+         else {
+             return tag + '\n' + html;
+@@ -45,8 +45,8 @@ exports.createBuildHtmlPlugin = async (root, indexPath, publicBasePath, assetsDi
+             ? filename
+             : `${publicBasePath}${path_1.default.posix.join(assetsDir, filename)}`;
+         const tag = `<script type="module" src="${filename}"></script>`;
+-        if (/<\/head>/.test(html)) {
+-            return html.replace(/<\/head>/, `${tag}\n</head>`);
++        if (/<\/body>/.test(html)) {
++            return html.replace(/<\/body>/, `${tag}\n</body>`);
+         }
+         else {
+             return html + '\n' + tag;
+@@ -57,8 +57,8 @@ exports.createBuildHtmlPlugin = async (root, indexPath, publicBasePath, assetsDi
+             ? filename
+             : `${publicBasePath}${path_1.default.posix.join(assetsDir, filename)}`;
+         const tag = `<link rel="modulepreload" href="${filename}" />`;
+-        if (/<\/head>/.test(html)) {
+-            return html.replace(/<\/head>/, `${tag}\n</head>`);
++        if (/<\/body>/.test(html)) {
++            return html.replace(/<\/body>/, `${tag}\n</body>`);
+         }
+         else {
+             return tag + '\n' + html;
 @@ -95,6 +95,7 @@ exports.createBuildHtmlPlugin = async (root, indexPath, publicBasePath, assetsDi
  };
  // this extends the config in @vue/compiler-sfc with <link href>
