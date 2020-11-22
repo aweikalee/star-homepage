@@ -5,7 +5,7 @@ export default (
     fill="none"
   >
     <polygon
-      points="30 130, 160 130, 220 60, 380 60, 440 130, 570 130, 570 530, 30 530"
+      points="30 130 160 130 220 60 380 60 440 130 570 130 570 530 30 530"
       stroke="currentColor"
       stroke-width="40"
       stroke-linejoin="round"
@@ -21,13 +21,13 @@ export default (
       opacity="0.5"
     />
     <path
-      d="M210 250, a110 110 0 0 1 200 60, t-50 0"
+      d="M 210 250 a 110 110 0 0 1 200 60 t -50 0"
       stroke="currentColor"
       stroke-width="40"
       stroke-linecap="round"
     ></path>
     <path
-      d="M390 380, a110 110 0 0 1 -200 -60, t50 0"
+      d="M 390 380 a 110 110 0 0 1 -200 -60 t 50 0"
       stroke="currentColor"
       stroke-width="40"
       stroke-linecap="round"

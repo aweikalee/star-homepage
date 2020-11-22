@@ -33,7 +33,7 @@ export default (
       clip-path="url(#823cb2cd-fb39-45ac-852d-f490dffa35d5)"
     />
     <polygon
-      points="114 -37, 57 19, 71 97, 0 60, -71 97, -57 19, -114 -37, -35 -49, 0 -120, 35 -49"
+      points="114 -37 57 19 71 97 0 60 -71 97 -57 19 -114 -37 -35 -49 0 -120 35 -49"
       stroke="currentColor"
       stroke-width="20"
       transform="translate(260, 262)"
