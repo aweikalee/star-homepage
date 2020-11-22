@@ -1,0 +1,20 @@
+diff --git a/node_modules/vite/dist/node/build/buildPluginHtml.js b/node_modules/vite/dist/node/build/buildPluginHtml.js
+index 2f55e7c..b912381 100644
+--- a/node_modules/vite/dist/node/build/buildPluginHtml.js
++++ b/node_modules/vite/dist/node/build/buildPluginHtml.js
+@@ -95,6 +95,7 @@ exports.createBuildHtmlPlugin = async (root, indexPath, publicBasePath, assetsDi
+ };
+ // this extends the config in @vue/compiler-sfc with <link href>
+ const assetAttrsConfig = {
++    script: ['src'],
+     link: ['href'],
+     video: ['src', 'poster'],
+     source: ['src'],
+@@ -142,6 +143,7 @@ const compileHtml = async (root, html, publicBasePath, assetsDir, inlineLimit, r
+                     // remove the script tag from the html. we are going to inject new
+                     // ones in the end.
+                     s.remove(node.loc.start.offset, node.loc.end.offset);
++                    return
+                 }
+             }
+             // For asset references in index.html, also generate an import
