@@ -4,7 +4,10 @@ const draw = Mesh.prototype.draw
 
 export class Particle extends Mesh {
   draw(drawOptions: Partial<DrawOptions> = {}) {
-    const [x, y, width, height] = this.gl.getParameter(this.gl.VIEWPORT)
+    const viewport = this.gl.renderer.state.viewport
+    const width = viewport?.width ?? 1000
+    const height = viewport?.height ?? 1000
+
     this.program.uniforms.viewport = {
       value: [width, height],
     }
