@@ -38,6 +38,7 @@ export default defineComponent({
           history: false,
           shareEl: false,
           fullscreenEl: false,
+          showHideOpacity:true,
           ...props.options,
         }
       )
