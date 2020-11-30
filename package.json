@@ -20,7 +20,8 @@
     "patch-package": "^6.2.2",
     "typescript": "^4.0.3",
     "typescript-plugin-css-modules": "^2.7.0",
-    "vite": "^1.0.0-rc.9"
+    "vite": "^1.0.0-rc.9",
+    "vite-plugin-string": "0.0.2"
   },
   "browserslist": [
     "> 0.2%",
