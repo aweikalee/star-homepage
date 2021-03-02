@@ -8,7 +8,7 @@ import {
   Transition,
   watch,
 } from 'vue'
-import { album, camera } from '../../store'
+import { album, camera, CAMERA_STATE } from '../../store'
 import { preventOrbit } from '../../webgl/utils'
 import Icon from '../Icon'
 import ToolBar from './ToolBar'
@@ -32,24 +32,9 @@ export default defineComponent({
       nextTick(() => (state.albumButtonVisible = true))
     })
 
-    const runTakePhoto = () => (state.shutterMask = true)
-    const takePhoto = () => {
-      const canvas = album.takePhoto()
-      if (!canvas) return (state.shutterMask = false)
-
-      canvas.toBlob((blob) => {
-        const url = URL.createObjectURL(blob)
-        album.pushPhoto({
-          src: url,
-          w: canvas.width,
-          h: canvas.height,
-        })
-        state.shutterMask = false
-      })
-    }
     const onTimerEnd = () => {
       camera.setVisible('timer', false)
-      runTakePhoto()
+      camera.setState(CAMERA_STATE.TAKING) // 进行拍摄
     }
 
     /* 提交elButton 用于计算 TheAblum 显隐动画 Origin */
@@ -127,9 +112,12 @@ export default defineComponent({
           leaveActiveClass={styles['fade-in--active']}
           leaveFromClass={styles['fade-in--from']}
           leaveToClass={styles['fade-in--to']}
-          onEnter={takePhoto}
         >
-          {() => state.shutterMask && <div class={styles.mask}></div>}
+          {() =>
+            camera.state === CAMERA_STATE.TAKING && (
+              <div class={styles.mask}></div>
+            )
+          }
         </Transition>
       </div>
     )

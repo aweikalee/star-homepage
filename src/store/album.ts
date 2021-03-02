@@ -1,6 +1,5 @@
 import { computed, reactive, readonly } from 'vue'
 import { variable } from '../config'
-import { createCanvasFromImageData } from '../utils'
 import { glstate } from './glstate'
 
 export type ITakePhoto = () => HTMLCanvasElement | void
@@ -27,14 +26,6 @@ const state = reactive({
   photos: [] as IPhoto[],
   pushPhoto(value: IPhoto) {
     state.photos.push(value)
-  },
-  takePhoto: (() => {}) as ITakePhoto,
-  setTakePhoto(createImageData: () => ImageData | void) {
-    state.takePhoto = () => {
-      const data = createImageData()
-      if (!data) return
-      return createCanvasFromImageData(data)
-    }
   },
 
   /* TheAlbum */

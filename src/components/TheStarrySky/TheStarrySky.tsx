@@ -1,7 +1,14 @@
-import { computed, defineComponent, onUnmounted, ref, watch } from 'vue'
+import { computed, defineComponent, ref, watch } from 'vue'
 import { Renderer, Camera, RenderTarget, Post } from 'ogl-typescript'
-import { album, camera as cameraStore, glstate, viewport } from '../../store'
-import { useRaf } from '../../utils'
+import {
+  album,
+  camera as cameraStore,
+  CAMERA_STATE,
+  glstate,
+  IPhoto,
+  viewport,
+} from '../../store'
+import { createCanvasFromImageData, useRaf } from '../../utils'
 import { createScene } from './scene/createScene'
 import { createScene as createSceneView } from './sceneView/createScene'
 import { createPost } from './post/createPost'
@@ -198,53 +205,82 @@ export default defineComponent({
       }
     })
 
-    /* 设置 takePhoto */
-    album.setTakePhoto(() => {
-      const _gl = gl.value
-      const _renderer = renderer.value
-      const _scene = scene.value
-      const _sceneView = sceneView.value
-      const _camera = camera.value
-      const _cameraView = cameraView.value
-      const _postView = postView.value
+    /* 拍照 camera.state 设为 TAKING 开始拍照 */
+    watch(
+      () => cameraStore.state,
+      (state) => {
+        if (state !== CAMERA_STATE.TAKING) return
 
-      if (!_gl || !_renderer || !_camera || !_cameraView || !_postView) return
-
-      _cameraView.rotation.copy(_camera.rotation)
-
-      const { w, h } = album.view
-
-      const target = new RenderTarget(_gl, {
-        width: w,
-        height: h,
-      })
-
-      _gl.disable(_gl.SCISSOR_TEST)
-
-      _postView.render({
-        camera: _cameraView,
-        scene: _scene,
-        target,
-      })
-
-      if (cameraStore.visible.constellation) {
-        _renderer.render({
-          camera: _cameraView,
-          scene: _sceneView,
-          target,
-          clear: false,
-        })
+        takePhoto()
+          .then((data) => {
+            album.pushPhoto(data)
+          })
+          .finally(() => {
+            // 更新 camera.state
+            cameraStore.setState(CAMERA_STATE.NO_STATUS)
+          })
       }
+    )
+    function takePhoto() {
+      return new Promise<IPhoto>((resolve, reject) => {
+        const _gl = gl.value
+        const _renderer = renderer.value
+        const _scene = scene.value
+        const _sceneView = sceneView.value
+        const _camera = camera.value
+        const _cameraView = cameraView.value
+        const _postView = postView.value
 
-      const pixels = new Uint8Array(w * h * 4)
-      // readPixels 的 dstData 中直接使用 Uint8ClampedArray，在 safari 中无法获得数据
-      _gl.bindFramebuffer(_gl.FRAMEBUFFER, target.buffer)
-      _gl.readPixels(0, 0, w, h, _gl.RGBA, _gl.UNSIGNED_BYTE, pixels)
-      _gl.bindFramebuffer(_gl.FRAMEBUFFER, null)
+        if (!_gl || !_renderer || !_camera || !_cameraView || !_postView)
+          return reject()
 
-      return new ImageData(new Uint8ClampedArray(pixels), w, h)
-    })
-    onUnmounted(() => album.setTakePhoto(() => {}))
+        _cameraView.rotation.copy(_camera.rotation)
+
+        const { w, h } = album.view
+
+        const target = new RenderTarget(_gl, {
+          width: w,
+          height: h,
+        })
+
+        _gl.disable(_gl.SCISSOR_TEST)
+
+        _postView.render({
+          camera: _cameraView,
+          scene: _scene,
+          target,
+        })
+
+        if (cameraStore.visible.constellation) {
+          _renderer.render({
+            camera: _cameraView,
+            scene: _sceneView,
+            target,
+            clear: false,
+          })
+        }
+
+        const pixels = new Uint8Array(w * h * 4)
+        // readPixels 的 dstData 中直接使用 Uint8ClampedArray，在 safari 中无法获得数据
+        _gl.bindFramebuffer(_gl.FRAMEBUFFER, target.buffer)
+        _gl.readPixels(0, 0, w, h, _gl.RGBA, _gl.UNSIGNED_BYTE, pixels)
+        _gl.bindFramebuffer(_gl.FRAMEBUFFER, null)
+
+        // 转换成 Canvas
+        const imageData = new ImageData(new Uint8ClampedArray(pixels), w, h)
+        const canvas = createCanvasFromImageData(imageData)
+
+        // 转成 blob
+        canvas.toBlob((blob) => {
+          const url = URL.createObjectURL(blob)
+          resolve({
+            src: url,
+            w: canvas.width,
+            h: canvas.height,
+          })
+        })
+      })
+    }
 
     return () => <canvas class={styles.starry} ref={el}></canvas>
   },

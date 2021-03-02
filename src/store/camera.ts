@@ -11,6 +11,12 @@ const visible = {
   timer: false, // 定时器
 }
 
+export enum CAMERA_STATE {
+  NO_STATUS,
+  TAKING,
+  TAKED,
+}
+
 const state = reactive({
   /* 组件可见状态 */
   visible,
@@ -50,6 +56,12 @@ const state = reactive({
   },
   toggleFrontCamera() {
     state.setFrontCamera(!state.frontCamera)
+  },
+
+  /* 拍摄状态 */
+  state: CAMERA_STATE.NO_STATUS,
+  setState(value: CAMERA_STATE) {
+    state.state = value
   },
 })
 
