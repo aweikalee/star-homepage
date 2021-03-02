@@ -108,8 +108,8 @@ export default defineComponent({
     watch(
       () => ({
         camera: cameraView.value,
-        aspect: glstate.view.w / glstate.view.h,
-        fov: (glstate.view.fov * 180) / Math.PI,
+        aspect: album.view.renderW / album.view.renderH,
+        fov: (album.view.renderFov * 180) / Math.PI,
       }),
       ({ camera, aspect, fov }) => {
         camera?.perspective({ fov, aspect })
@@ -133,8 +133,8 @@ export default defineComponent({
     watch(
       () => ({
         post: postView.value,
-        w: album.view.w,
-        h: album.view.h,
+        w: album.view.renderW,
+        h: album.view.renderH,
       }),
       ({ post, w, h }) => {
         post?.resize({
@@ -236,11 +236,12 @@ export default defineComponent({
 
         _cameraView.rotation.copy(_camera.rotation)
 
-        const { w, h } = album.view
+        // 参数详细说明见 album.view
+        const { w, h, offsetX, offsetY, renderW, renderH } = album.view
 
         const target = new RenderTarget(_gl, {
-          width: w,
-          height: h,
+          width: renderW,
+          height: renderH,
         })
 
         _gl.disable(_gl.SCISSOR_TEST)
@@ -263,7 +264,15 @@ export default defineComponent({
         const pixels = new Uint8Array(w * h * 4)
         // readPixels 的 dstData 中直接使用 Uint8ClampedArray，在 safari 中无法获得数据
         _gl.bindFramebuffer(_gl.FRAMEBUFFER, target.buffer)
-        _gl.readPixels(0, 0, w, h, _gl.RGBA, _gl.UNSIGNED_BYTE, pixels)
+        _gl.readPixels(
+          Math.max(0, -offsetX),
+          Math.max(0, -offsetY),
+          w,
+          h,
+          _gl.RGBA,
+          _gl.UNSIGNED_BYTE,
+          pixels
+        )
         _gl.bindFramebuffer(_gl.FRAMEBUFFER, null)
 
         // 转换成 Canvas
