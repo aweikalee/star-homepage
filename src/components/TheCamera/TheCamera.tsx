@@ -8,7 +8,7 @@ import {
   Transition,
   watch,
 } from 'vue'
-import { album, camera, CAMERA_STATE } from '../../store'
+import { album, camera, CAMERA_STATE, view } from '../../store'
 import { preventOrbit } from '../../webgl/utils'
 import Icon from '../Icon'
 import ToolBar from './ToolBar'
@@ -42,11 +42,16 @@ export default defineComponent({
     watch(elButton, (el) => album.setButtonElement(el ?? null))
     onUnmounted(() => album.setButtonElement(null))
 
+    /* 提交 */
+    const viewEl = ref<HTMLElement>()
+    watch(viewEl, (el) => view.setCameraElement(el ?? null))
+    onUnmounted(() => view.setCameraElement(null))
+
     return () => (
       <div class={styles.camera}>
         <ToolBar />
 
-        <div class={styles.view}>
+        <div class={styles.view} ref={viewEl}>
           {slots.default?.()}
           {camera.visible.timer && <Timer onTimeUp={onTimerEnd} />}
         </div>

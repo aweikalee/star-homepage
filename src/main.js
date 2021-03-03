@@ -8,10 +8,11 @@ const app = document.getElementById('app')
 
 createApp(App).mount(app)
 
+const scrollToTop = throttle(() => window.scrollTo({ top: 0 }), 16)
 const resize = () => {
   app.style.width = `${window.innerWidth}px`
   app.style.height = `${window.innerHeight}px`
-  window.scrollTo({ top: 0 })
+  scrollToTop()
 }
 resize()
-addEventListener('resize', throttle(resize, 16))
+addEventListener('resize', resize, { capture: true })

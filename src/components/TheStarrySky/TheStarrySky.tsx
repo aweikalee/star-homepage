@@ -88,7 +88,7 @@ export default defineComponent({
         return {
           gl: gl.value,
           x: (full.w - w) / 2 + offsetX,
-          y: (full.h - h) / 2 + offsetY,
+          y: (full.h - h) / 2 - offsetY, // y 轴相反
           w,
           h,
         }
@@ -247,7 +247,6 @@ export default defineComponent({
         _cameraView.rotation.copy(_camera.rotation)
 
         const { w, h, offsetX, offsetY, outputW, outputH } = view.photo
-        console.log(view.camera, view.photo)
 
         const target = new RenderTarget(_gl, {
           width: w,
@@ -275,8 +274,8 @@ export default defineComponent({
         // readPixels 的 dstData 中直接使用 Uint8ClampedArray，在 safari 中无法获得数据
         _gl.bindFramebuffer(_gl.FRAMEBUFFER, target.buffer)
         _gl.readPixels(
-          Math.max(0, -offsetX),
-          Math.max(0, -offsetY),
+          Math.max(0, offsetX),
+          Math.max(0, offsetY),
           outputW,
           outputH,
           _gl.RGBA,

@@ -1,4 +1,4 @@
-import { computed, reactive, readonly } from 'vue'
+import { computed, reactive, readonly, ref, watch } from 'vue'
 import { variable } from '../config'
 import { equivalentFov } from '../utils'
 import { viewport } from './viewport'
@@ -21,41 +21,35 @@ const full = reactive({
 
 /* 渲染相机中画面所需参数 */
 const camera = reactive({
-  fov: computed(() => {
-    const { isMobileInCSS, orientation } = viewport
-    const { fov, h: baseH } = full
-    let { w, h } = variable.phone
-
-    if (isMobileInCSS) {
-      return fov
-    } else {
-      if (orientation !== 'portrait') [w, h] = [h, w]
-      return equivalentFov(fov, baseH, h)
-    }
-  }),
-  w: computed(() => {
-    const { isMobileInCSS, orientation } = viewport
-    const { phone } = variable
-    const { w } = full
-    if (isMobileInCSS) {
-      return w
-    } else {
-      return orientation === 'portrait' ? phone.w : phone.h
-    }
-  }),
-  h: computed(() => {
-    const { isMobileInCSS, orientation } = viewport
-    const { phone } = variable
-    const { h } = full
-    if (isMobileInCSS) {
-      return h
-    } else {
-      return orientation === 'portrait' ? phone.h : phone.w
-    }
-  }),
+  fov: 1,
+  w: 1,
+  h: 1,
   offsetX: 0,
   offsetY: 0,
 })
+
+// camera 参数将根据该 DOM 进行计算
+const cameraElement = ref<HTMLElement | null>(null)
+function setCameraElement(el: HTMLElement | null) {
+  cameraElement.value = el
+}
+
+watch(
+  () => ({
+    el: cameraElement.value,
+    ...full,
+  }),
+  ({ el, fov, w, h }) => {
+    if (!el) return
+
+    const rect = el.getBoundingClientRect()
+    camera.w = Math.floor(rect.width)
+    camera.h = Math.floor(rect.height)
+    camera.offsetX = Math.floor(rect.x + rect.width / 2 - w / 2)
+    camera.offsetY = Math.floor(rect.y + rect.height / 2 - h / 2)
+    camera.fov = equivalentFov(fov, h, camera.h)
+  }
+)
 
 /* 渲染照片所需参数 */
 const photo = computed(() => {
@@ -69,12 +63,12 @@ const photo = computed(() => {
   const ratio = outputW / camera.w
 
   // 偏移量
-  const offsetX = 0 * ratio
-  const offsetY = 0 * ratio
+  const offsetX = Math.floor(camera.offsetX * ratio)
+  const offsetY = Math.floor(camera.offsetY * ratio)
 
   // 渲染时尺寸、视野范围
-  const w = outputW + Math.abs(offsetX)
-  const h = outputH + Math.abs(offsetY)
+  const w = outputW + Math.abs(offsetX) * 2
+  const h = outputH + Math.abs(offsetY) * 2
   const fov = equivalentFov(camera.fov, outputH, h)
 
   return { outputW, outputH, offsetX, offsetY, w, h, fov }
@@ -84,6 +78,8 @@ const state = reactive({
   full,
   camera,
   photo,
+
+  setCameraElement,
 })
 
 export const view = readonly(state)
