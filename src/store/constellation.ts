@@ -3,6 +3,7 @@ import { random } from '../webgl/utils'
 import { sites, variable } from '../config'
 import { glstate } from './glstate'
 import { equivalentFov } from '../utils'
+import { view } from './view'
 
 const baseFov = variable.fov.base
 const rotationYBase = (2 * Math.PI) / sites.length
@@ -21,7 +22,7 @@ const data = sites.map((site, i) => {
 
 /* 有效视角范围  */
 const validFov = computed(() => {
-  const { w, h, fov } = glstate.view
+  const { w, h, fov } = view.camera
   return {
     x: fov,
     y: equivalentFov(fov, h, w),

@@ -6,7 +6,7 @@ import {
   CAMERA_STATE,
   glstate,
   IPhoto,
-  viewport,
+  view,
 } from '../../store'
 import { createCanvasFromImageData, useRaf } from '../../utils'
 import { createScene } from './scene/createScene'
@@ -74,21 +74,25 @@ export default defineComponent({
     watch(
       () => ({
         renderer: renderer.value,
-        w: viewport.w,
-        h: viewport.h,
+        w: view.full.w,
+        h: view.full.h,
       }),
       ({ renderer, w, h }) => {
         renderer?.setSize(w, h)
       }
     )
     watch(
-      () => ({
-        gl: gl.value,
-        x: (viewport.w - glstate.view.w) / 2,
-        y: (viewport.h - glstate.view.h) / 2,
-        w: glstate.view.w,
-        h: glstate.view.h,
-      }),
+      () => {
+        const { full, camera } = view
+        const { w, h, offsetX, offsetY } = camera
+        return {
+          gl: gl.value,
+          x: (full.w - w) / 2 + offsetX,
+          y: (full.h - h) / 2 + offsetY,
+          w,
+          h,
+        }
+      },
       ({ gl, x, y, w, h }) => {
         gl?.scissor(x, y, w, h)
       }
@@ -96,21 +100,27 @@ export default defineComponent({
 
     /* Camera */
     watch(
-      () => ({
-        camera: camera.value,
-        aspect: viewport.w / viewport.h,
-        fov: (glstate.fov * 180) / Math.PI,
-      }),
+      () => {
+        const { w, h, fov } = view.full
+        return {
+          camera: camera.value,
+          aspect: w / h,
+          fov: (fov * 180) / Math.PI,
+        }
+      },
       ({ camera, aspect, fov }) => {
         camera?.perspective({ fov, aspect })
       }
     )
     watch(
-      () => ({
-        camera: cameraView.value,
-        aspect: album.view.renderW / album.view.renderH,
-        fov: (album.view.renderFov * 180) / Math.PI,
-      }),
+      () => {
+        const { w, h, fov } = view.photo
+        return {
+          camera: cameraView.value,
+          aspect: w / h,
+          fov: (fov * 180) / Math.PI,
+        }
+      },
       ({ camera, aspect, fov }) => {
         camera?.perspective({ fov, aspect })
       }
@@ -120,8 +130,8 @@ export default defineComponent({
     watch(
       () => ({
         post: post.value,
-        w: viewport.w,
-        h: viewport.h,
+        w: view.full.w,
+        h: view.full.h,
       }),
       ({ post, w, h }) => {
         post?.resize({
@@ -133,8 +143,8 @@ export default defineComponent({
     watch(
       () => ({
         post: postView.value,
-        w: album.view.renderW,
-        h: album.view.renderH,
+        w: view.photo.w,
+        h: view.photo.h,
       }),
       ({ post, w, h }) => {
         post?.resize({
@@ -236,12 +246,12 @@ export default defineComponent({
 
         _cameraView.rotation.copy(_camera.rotation)
 
-        // 参数详细说明见 album.view
-        const { w, h, offsetX, offsetY, renderW, renderH } = album.view
+        const { w, h, offsetX, offsetY, outputW, outputH } = view.photo
+        console.log(view.camera, view.photo)
 
         const target = new RenderTarget(_gl, {
-          width: renderW,
-          height: renderH,
+          width: w,
+          height: h,
         })
 
         _gl.disable(_gl.SCISSOR_TEST)
@@ -261,14 +271,14 @@ export default defineComponent({
           })
         }
 
-        const pixels = new Uint8Array(w * h * 4)
+        const pixels = new Uint8Array(outputW * outputH * 4)
         // readPixels 的 dstData 中直接使用 Uint8ClampedArray，在 safari 中无法获得数据
         _gl.bindFramebuffer(_gl.FRAMEBUFFER, target.buffer)
         _gl.readPixels(
           Math.max(0, -offsetX),
           Math.max(0, -offsetY),
-          w,
-          h,
+          outputW,
+          outputH,
           _gl.RGBA,
           _gl.UNSIGNED_BYTE,
           pixels
@@ -276,7 +286,11 @@ export default defineComponent({
         _gl.bindFramebuffer(_gl.FRAMEBUFFER, null)
 
         // 转换成 Canvas
-        const imageData = new ImageData(new Uint8ClampedArray(pixels), w, h)
+        const imageData = new ImageData(
+          new Uint8ClampedArray(pixels),
+          outputW,
+          outputH
+        )
         const canvas = createCanvasFromImageData(imageData)
 
         // 转成 blob

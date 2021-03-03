@@ -1,49 +1,12 @@
 import { camera } from './camera'
 import { Transform } from 'ogl-typescript'
-import { reactive, readonly, computed, watch } from 'vue'
+import { reactive, readonly, computed } from 'vue'
 import { variable } from '../config'
-import { equivalentFov } from '../utils'
-import { viewport } from './viewport'
+import { view } from './view'
 import { Orbit } from '../webgl/Orbit'
 
-const fov = computed(() => {
-  const { fov, phone } = variable
-  const { h, isMobileInCSS, orientation } = viewport
-
-  if (isMobileInCSS) {
-    return fov.mobile[orientation]
-  } else {
-    return equivalentFov(fov.base, phone.w, h)
-  }
-})
-
-const view = computed(() => {
-  const { w, h, isMobileInCSS, orientation } = viewport
-  const { phone } = variable
-
-  const res = {
-    w,
-    h,
-    fov: fov.value,
-  }
-
-  if (!isMobileInCSS) {
-    if (orientation === 'portrait') {
-      res.w = phone.w
-      res.h = phone.h
-    } else {
-      res.w = phone.h
-      res.h = phone.w
-    }
-
-    res.fov = equivalentFov(res.fov, h, res.h)
-  }
-
-  return res
-})
-
 const toPx = computed(() => {
-  const { h, fov } = view.value
+  const { h, fov } = view.full
   const ratio = h / (2 * Math.tan(fov / 2))
 
   /* distance 应为正数 */
@@ -54,8 +17,6 @@ const toPx = computed(() => {
 })
 
 const state = reactive({
-  fov,
-  view,
   toPx,
   camera: new Transform(),
 })
