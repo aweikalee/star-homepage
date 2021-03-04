@@ -16,12 +16,7 @@ export default defineComponent({
     })
 
     const items = computed(() => {
-      return album.photos.map(({ src, w, h }) => ({
-        src,
-        msrc: src,
-        w,
-        h,
-      }))
+      return album.photos.map((photo) => ({ ...photo }))
     })
 
     const getThumbBoundsFn: PhotoSwipe.Options['getThumbBoundsFn'] = (
@@ -73,15 +68,15 @@ export default defineComponent({
         {() => (
           <>
             <div class={styles.album} ref={el}>
-              {album.photos.map(({ src }, index) => (
-                <div class={styles.item} key={src}>
+              {album.photos.map(({ msrc }, index) => (
+                <div class={styles.item} key={msrc}>
                   <div
                     onClick={() => {
                       swiper.visible = true
                       swiper.index = index
                     }}
                     style={{
-                      backgroundImage: `url(${src})`,
+                      backgroundImage: `url(${msrc})`,
                     }}
                   ></div>
                 </div>

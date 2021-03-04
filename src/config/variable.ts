@@ -23,6 +23,7 @@ export const variable = {
     far: 6,
   },
   album: {
-    imageQuality: 1920 * 1080,
+    imageQuality: 1920 * 1080, // 分辨率
+    thumbnailQuality: 200, // 最小宽、高
   },
 }

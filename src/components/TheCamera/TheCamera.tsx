@@ -25,7 +25,8 @@ export default defineComponent({
     })
 
     const thumbnail = computed<string | undefined>(() => {
-      return album.photos[album.photos.length - 1]?.src
+      const photo = album.photos[album.photos.length - 1]
+      return photo?.msrc ?? photo?.src
     })
     watch(thumbnail, () => {
       state.albumButtonVisible = false

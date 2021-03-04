@@ -8,7 +8,7 @@ import {
   IPhoto,
   view,
 } from '../../store'
-import { createCanvasFromImageData, useRaf } from '../../utils'
+import { createCanvasFromImageData, toBlobPromise, useRaf } from '../../utils'
 import { createScene } from './scene/createScene'
 import { createScene as createSceneView } from './sceneView/createScene'
 import { createPost } from './post/createPost'
@@ -223,7 +223,7 @@ export default defineComponent({
 
         takePhoto()
           .then((data) => {
-            album.pushPhoto(data)
+            return album.pushPhoto(data)
           })
           .finally(() => {
             // 更新 camera.state
@@ -232,7 +232,7 @@ export default defineComponent({
       }
     )
     function takePhoto() {
-      return new Promise<IPhoto>((resolve, reject) => {
+      return new Promise<Omit<IPhoto, 'msrc'>>(async (resolve, reject) => {
         const _gl = gl.value
         const _renderer = renderer.value
         const _scene = scene.value
@@ -293,13 +293,12 @@ export default defineComponent({
         const canvas = createCanvasFromImageData(imageData)
 
         // 转成 blob
-        canvas.toBlob((blob) => {
-          const url = URL.createObjectURL(blob)
-          resolve({
-            src: url,
-            w: canvas.width,
-            h: canvas.height,
-          })
+        const blob = await toBlobPromise(canvas)
+        const url = URL.createObjectURL(blob)
+        resolve({
+          src: url,
+          w: canvas.width,
+          h: canvas.height,
         })
       })
     }
