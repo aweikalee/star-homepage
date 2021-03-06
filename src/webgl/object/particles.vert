@@ -8,8 +8,6 @@ uniform mat4 modelViewMatrix;
 uniform mat4 projectionMatrix;
 uniform vec2 viewport;
 
-uniform float uHeight;
-
 varying vec4 vColor;
 varying float vRandom;
 

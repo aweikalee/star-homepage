@@ -7,6 +7,7 @@ import {
   glstate,
   IPhoto,
   view,
+  viewport,
 } from '../../store'
 import { createCanvasFromImageData, toBlobPromise, useRaf } from '../../utils'
 import { createScene } from './scene/createScene'
@@ -185,18 +186,21 @@ export default defineComponent({
 
       _camera.rotation.copy(glstate.camera.rotation)
 
-      _gl.disable(_gl.SCISSOR_TEST)
-      if (cameraStore.frontCamera) {
-        _camera.rotation.y += Math.PI
-        _camera.rotation.x *= -1
-      }
-      _renderer.render({
-        camera: camera.value,
-        scene: scene.value,
-      })
-      if (cameraStore.frontCamera) {
-        _camera.rotation.y -= Math.PI
-        _camera.rotation.x *= -1
+      // 背景渲染 （手机模式则跳过）
+      if (!viewport.isMobileInCSS) {
+        _gl.disable(_gl.SCISSOR_TEST)
+        if (cameraStore.frontCamera) {
+          _camera.rotation.y += Math.PI
+          _camera.rotation.x *= -1
+        }
+        _renderer.render({
+          camera: camera.value,
+          scene: scene.value,
+        })
+        if (cameraStore.frontCamera) {
+          _camera.rotation.y -= Math.PI
+          _camera.rotation.x *= -1
+        }
       }
 
       _gl.enable(_gl.SCISSOR_TEST)
