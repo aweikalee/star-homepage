@@ -20,7 +20,7 @@ export default (options: IHtmlPorterOption[]): Plugin => {
         const [start, end] = contentRange
         const index = type === 'pre' ? targetRange[0] : targetRange[1]
 
-        return applyPort(html, {
+        html = applyPort(html, {
           start,
           end,
           index,
