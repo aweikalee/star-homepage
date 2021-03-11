@@ -32,8 +32,7 @@ jobs:
           host: ${{ secrets.HOST }}
           username: ${{ secrets.USERNAME }}
           password: ${{ secrets.PASSWORD }}
-          port: ${{ secrets.PORT }}
           source: "dist/*"
-          target: "~/dist"
+          target: "~/homepage"
           strip_components: 1
           rm: true
