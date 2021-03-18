@@ -102,7 +102,7 @@ export const sites: ISite[] = [
   },
   {
     title: "毛呆's Blog",
-    url: 'https://aweikalee.github.io',
+    url: 'https://blog.maodai.site',
     description:
       '技术博客，没啥文章。大多死于草稿箱（然后丢进了另一个加密的博客中给自己看）',
     // prettier-ignore
