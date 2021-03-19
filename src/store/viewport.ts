@@ -1,6 +1,6 @@
 import { reactive, readonly } from 'vue'
 import { variable } from '../config'
-import { throttle } from '../utils'
+import { onBodyResize, throttle } from '../utils'
 
 export type IOrientation = 'portrait' | 'landscape'
 
@@ -29,4 +29,4 @@ const resize = () => {
   state.isMobileInCSS = w < boundaryW || h < boundaryH
 }
 resize()
-addEventListener('resize', throttle(resize))
+onBodyResize(throttle(resize))
