@@ -8,6 +8,7 @@ import {
   PropType,
   ref,
 } from 'vue'
+import { dom } from '../../config'
 
 import styles from './styles.module.scss'
 
@@ -124,7 +125,7 @@ export default defineComponent({
     }
 
     return () => (
-      <Teleport to="#overlay">
+      <Teleport to={dom.overlay}>
         <Transition
           enterActiveClass={styles['enter--active']}
           enterFromClass={styles['enter--from']}
