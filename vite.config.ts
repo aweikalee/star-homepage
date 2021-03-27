@@ -16,7 +16,7 @@ export default <UserConfig>{
     htmlPorter([
       {
         range: {
-          start: '</title>\r\n',
+          start: '</title>',
           end: '</head>',
         },
         target: '</body>',

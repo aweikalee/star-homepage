@@ -11,7 +11,7 @@ export default (token: string): Plugin => {
           attrs: {
             src: `//hm.baidu.com/hm.js?${token}`,
           },
-          injectTo: 'head',
+          injectTo: 'body',
         },
       ]
     },

@@ -12,8 +12,6 @@
 <body>
   <div id="loading" style="display: none;">
     <!-- 加载动画 -->
-    <link rel="stylesheet" href="/css/spinner.css">
-    <script type="application/javascript" src="/js/loading.js"></script>
     <div class="spinner">
       <div class="rect1"></div>
       <div class="rect2"></div>
@@ -21,6 +19,114 @@
       <div class="rect4"></div>
       <div class="rect5"></div>
     </div>
+
+    <style>
+      .spinner {
+        position: absolute;
+        z-index: -1;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        display: flex;
+        justify-content: space-between;
+        width: 20vw;
+        max-width: 100px;
+      }
+
+      .spinner>div {
+        background-color: #70caac;
+        flex-basis: 15%;
+        height: 0;
+        padding-bottom: 50%;
+        -webkit-animation: spinner-animation 1.2s infinite ease-in-out;
+        animation: spinner-animation 1.2s infinite ease-in-out;
+      }
+
+      .spinner .rect2 {
+        -webkit-animation-delay: -1.1s;
+        animation-delay: -1.1s;
+      }
+
+      .spinner .rect3 {
+        -webkit-animation-delay: -1s;
+        animation-delay: -1s;
+      }
+
+      .spinner .rect4 {
+        -webkit-animation-delay: -0.9s;
+        animation-delay: -0.9s;
+      }
+
+      .spinner .rect5 {
+        -webkit-animation-delay: -0.8s;
+        animation-delay: -0.8s;
+      }
+
+      @-webkit-keyframes spinner-animation {
+
+        0%,
+        40%,
+        100% {
+          transform: scaleY(1);
+        }
+
+        20% {
+          transform: scaleY(2.4);
+        }
+      }
+
+      @keyframes spinner-animation {
+
+        0%,
+        40%,
+        100% {
+          transform: scaleY(1);
+        }
+
+        20% {
+          transform: scaleY(2.4);
+        }
+      }
+    </style>
+    <script>; (function () {
+        var duration = 500
+        var minLoadingTime = 300
+        var startTime = Date.now()
+
+        var removed = false
+        var el = document.getElementById('loading')
+        if (el) {
+          el.style.backgroundColor = '#282c34'
+          el.style.position = 'fixed'
+          el.style.top = '0'
+          el.style.bottom = '0'
+          el.style.left = '0'
+          el.style.right = '0'
+          el.style.zIndex = '100000'
+          el.style.transition = 'opacity ' + duration + 'ms'
+          el.style.opacity = '0'
+          el.style.display = null
+          setTimeout(function () {
+            if (el) {
+              el.style.opacity = '1'
+            }
+          }, minLoadingTime)
+        }
+
+        window.$removeLoading = function () {
+          if (removed || !el) {
+            return
+          }
+          removed = false
+          el.style.opacity = '0'
+          var delay = Date.now() - startTime < minLoadingTime ? 0 : duration
+          setTimeout(function () {
+            el.parentElement.removeChild(el)
+            el = null
+          }, delay)
+        }
+      })()
+    </script>
   </div>
 
   <div id="app">
