@@ -4,6 +4,7 @@ import vueJsx from '@vitejs/plugin-vue-jsx'
 import vitePluginString from 'vite-plugin-string'
 import htmlPorter from './plugins/htmlPorter'
 import baiduAnalytics from './plugins/baiduAnalytics'
+import { minifyHtml } from 'vite-plugin-html'
 
 export default <UserConfig>{
   esbuildTarget: 'es6',
@@ -25,7 +26,10 @@ export default <UserConfig>{
     ]),
 
     /* 百度统计 */
-    baiduAnalytics('688767575360f4fcf32801af3d9a2137')
+    baiduAnalytics('688767575360f4fcf32801af3d9a2137'),
+
+    /* 压缩 html */
+    minifyHtml(),
   ],
   optimizeDeps: {
     include: ['photoswipe/dist/photoswipe-ui-default'],
