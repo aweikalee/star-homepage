@@ -356,9 +356,9 @@ sites.push({
   url: '',
   description: (
     <>
-      <div>我是毛呆, 一个接触前端很久但只有一年工作经验的前端工程师。</div>
+      <div>我是毛呆，一名前端攻城狮。</div>
       <div>
-        目前正在<strong>求职中</strong>，对我感兴趣的话可以联系我，
+        欢迎技术交流，我的联系方式：
         <a href="mailto:aweikalee@163.com">aweikalee@163.com</a>。
       </div>
     </>
