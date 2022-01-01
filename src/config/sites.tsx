@@ -58,7 +58,7 @@ export const sites: ISite[] = [
   },
   {
     title: '旅游手账',
-    url: 'https://awwwk.com',
+    url: 'https://tripnote.maodai.site',
     description:
       '行程制作及展示。针对制作行程单以及旅游过程中的诸多痛点进行了改善。',
     // prettier-ignore
