@@ -358,7 +358,7 @@ sites.push({
     <>
       <div>我是毛呆，一名前端攻城狮。</div>
       <div>
-        欢迎技术交流，我的联系方式：
+        当前坐标杭州正在寻找新的坑位，也欢迎技术交流，我的联系方式：
         <a href="mailto:aweikalee@163.com">aweikalee@163.com</a>。
       </div>
     </>
