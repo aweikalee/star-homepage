@@ -139,6 +139,30 @@ export const sites: ISite[] = [
     ],
   },
   {
+    title: 'Syncplayer 同步播放器',
+    url: 'https://syncplayer.maodai.site',
+    description:
+      '通过 WebSocket 解决异地同步观影，当前仅支持选择本地文件进行播放。',
+    // prettier-ignore
+    points: [
+      -60,  80,
+      75,   0,
+     -60, -80,
+     -30,  24,
+      15,   0,
+     -30, -24,
+    ],
+    // prettier-ignore
+    lines: [
+      0, 1,
+      1, 2,
+      2, 0,
+      3, 4,
+      4, 5,
+      5, 3,
+    ],
+  },
+  {
     title: 'JavaScript 抽象相等比较',
     url: 'https://aweikalee.github.io/abstract-equality-comparison/',
     description:
