@@ -380,10 +380,14 @@ sites.push({
   url: '',
   description: (
     <>
-      <div>我是毛呆，一名前端攻城狮。</div>
+      <div>我是毛呆，一名前端开发工程师。</div>
       <div>
-        正在寻找杭州或上海的坑位，也欢迎技术交流，我的联系方式：
-        <a href="mailto:aweikalee@163.com">aweikalee@163.com</a>。
+        全职接单中，也欢迎技术交流。
+      </div>
+      <div>
+        邮箱：<a href="mailto:aweikalee@163.com">aweikalee@163.com</a>
+        <br />
+        微信(base64)：YXdlaWth
       </div>
     </>
   ),
